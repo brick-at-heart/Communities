@@ -56,5 +56,72 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Programmability" />
+    <Folder Include="Scripts" />
+    <Folder Include="Security" />
+    <Folder Include="Tables" />
+    <Folder Include="Programmability\Stored Procedures" />
+    <Folder Include="Security\Roles" />
+    <Folder Include="Security\Roles\Database Roles" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Catalog.sql" />
+    <Build Include="Tables\JoinType.sql" />
+    <Build Include="Tables\Login.sql" />
+    <Build Include="Tables\LUGBulkRegistration.sql" />
+    <Build Include="Tables\LUGBulkRun.sql" />
+    <Build Include="Tables\Membership.sql" />
+    <Build Include="Tables\MembershipRole.sql" />
+    <Build Include="Tables\Right.sql" />
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\RoleRight.sql" />
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\Community.sql" />
+    <Build Include="Security\Roles\Database Roles\WebApplication.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateCatalog.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateLogin.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateMembership.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateMembershipRole.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateRole.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateUser.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateCommunity.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteCatalog.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteLogin.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteMembership.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteMembershipRole.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteRole.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteUser.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteCommunity.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveCatalogsByCommunityId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveLoginByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveMembershipByMembershipId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveMembershipRolesByRoleId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveMembershipsByCommunityId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveMembershipsByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveRightByRightIdUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveRightsByRoleId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveRoleByRoleId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveRolesByCommunityId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveUserByEmail.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveUserByLogin.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveUserByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveCommunity.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveCommunityByFullName.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveCommunityByShortName.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveCommunityByCommunityId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveCommunitiesyByJoinType.sql" />
+    <Build Include="Programmability\Stored Procedures\UpdateMembership.sql" />
+    <Build Include="Programmability\Stored Procedures\UpdateRole.sql" />
+    <Build Include="Programmability\Stored Procedures\UpdateRoleRight.sql" />
+    <Build Include="Programmability\Stored Procedures\UpdateUser.sql" />
+    <Build Include="Programmability\Stored Procedures\UpdateCommunity.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Programmability\Stored Procedures\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Database.Azure.publish.xml" />
+    <None Include="Database.Local.publish.xml" />
   </ItemGroup>
 </Project>
