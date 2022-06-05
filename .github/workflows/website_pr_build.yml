@@ -1,0 +1,37 @@
+name: Trigger Build for Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '5.0.400'
+
+jobs:
+  build-and-publish:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@master
+
+      # Setup .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # Run dotnet build and publish
+      - name: Build Solution
+        run: dotnet build ./src/Headlight.sln --configuration Release
+
+      # Publish output
+      - name: Publish
+        run: dotnet publish ./src/Headlight.sln -c Release -o Drop
