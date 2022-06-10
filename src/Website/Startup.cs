@@ -158,14 +158,22 @@ namespace BrickAtHeart.Communities
                         });
                         break;
 
-                    //case "twitter":
-                    //    builder.AddTwitter("Twitter", identityProvider.DisplayName, options =>
-                    //    {
-                    //        options.ConsumerKey = identityProvider.ClientId;
-                    //        options.ConsumerSecret = identityProvider.ClientSecret;
-                    //        options.RetrieveUserDetails = true;
-                    //    });
-                    //    break;
+                    case "twitter":
+
+                        if (string.IsNullOrWhiteSpace(identityProvider.DisplayName) ||
+                            string.IsNullOrWhiteSpace(identityProvider.ClientId) ||
+                            string.IsNullOrWhiteSpace(identityProvider.ClientSecret))
+                        {
+                            break;
+                        }
+
+                        builder.AddTwitter("Twitter", identityProvider.DisplayName, options =>
+                        {
+                            options.ConsumerKey = identityProvider.ClientId;
+                            options.ConsumerSecret = identityProvider.ClientSecret;
+                            options.RetrieveUserDetails = true;
+                        });
+                        break;
 
                     case "google":
 

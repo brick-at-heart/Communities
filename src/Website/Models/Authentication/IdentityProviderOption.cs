@@ -2,7 +2,7 @@
 {
     public class IdentityProviderOption
     {
-        public const string Section = "BrickAtHeart:Communities:IdentityProviders";
+        public const string Section = "Communities:IdentityProviders";
 
         public string? ClientId { get; set; }
 
