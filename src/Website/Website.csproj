@@ -29,6 +29,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.5" />
@@ -41,7 +45,11 @@
   <ItemGroup>
     <Folder Include="Areas\Administration\" />
     <Folder Include="Areas\Community\" />
-    <Folder Include="Areas\Shared\" />
+    <Folder Include="wwwroot\css\bootstrap\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
 </Project>
