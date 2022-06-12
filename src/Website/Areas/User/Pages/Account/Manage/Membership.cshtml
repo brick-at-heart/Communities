@@ -1,4 +1,30 @@
 ﻿@page
-@model BrickAtHeart.Communities.Areas.User.Pages.Account.Manage.MembershipModel
+@model MembershipModel
 @{
+    ViewData["Title"] = "Manage Membership";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="membership-form" method="post">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="MembershipDetails.SlackMemberId">Slack Member Id</label>
+            <input asp-for="MembershipDetails.SlackMemberId" class="form-control" tabindex="1" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label asp-for="MembershipDetails.IsActive">Is Active</label>
+            <input asp-for="MembershipDetails.IsActive" class="form-check-inline" tabindex="2" disabled />
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="MembershipDetails.IsPrimary">Is Primary</label>
+            <input asp-for="MembershipDetails.IsPrimary" class="form-check-inline" tabindex="3" />
+        </div>
+    </div>
+    <button id="update-profile-button" type="submit" class="btn btn-dark" tabindex="4">Save</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

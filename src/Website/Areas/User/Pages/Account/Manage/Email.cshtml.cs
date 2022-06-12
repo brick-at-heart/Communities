@@ -18,7 +18,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         [Required]
         [EmailAddress]
-        [Display(Name = "New email")]
+        [Display(Name = "New Email")]
         public string NewEmail { get; set; }
 
         public string OldEmail { get; set; }
