@@ -10,11 +10,11 @@
         /// <summary>
         ///  The SendGrid API Key
         /// </summary>
-        public string? ApiKey { get; set; }
+        public string ApiKey { get; set; }
 
         /// <summary>
         ///  The base Uri of the SendGrid Api
         /// </summary>
-        public string? BaseUri { get; set; }
+        public string BaseUri { get; set; }
     }
 }

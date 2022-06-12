@@ -10,7 +10,7 @@ namespace BrickAtHeart.Communities.Services.Email
         /// <param name="innerException">
         ///  An inner exception
         /// </param>
-        public EmailServiceException( Exception? innerException ) :
+        public EmailServiceException( Exception innerException ) :
             base( "An error was encountered when sending the message.",
                   innerException )
         {
@@ -25,8 +25,8 @@ namespace BrickAtHeart.Communities.Services.Email
         /// <param name="innerException">
         ///  An Inner exception
         /// </param>
-        public EmailServiceException( string? message,
-                                      Exception? innerException ) :
+        public EmailServiceException( string message,
+                                      Exception innerException ) :
             base( message,
                   innerException )
         {

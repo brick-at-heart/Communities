@@ -314,8 +314,6 @@ namespace BrickAtHeart.Communities.Data
                 SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
                 IUserEntity userEntity = await LoadUserEntity(reader, cancellationToken);
 
-                logger.LogInformation("Successfully Leaving RetrieveUserByLoginAsync");
-
                 return userEntity;
             }
             catch (Exception e)
@@ -473,6 +471,11 @@ namespace BrickAtHeart.Communities.Data
 
         private async Task<IUserEntity> LoadUserEntity(SqlDataReader reader, CancellationToken cancellationToken = new CancellationToken())
         {
+            if (!reader.HasRows)
+            {
+                return null;
+            }
+
             await reader.ReadAsync(cancellationToken);
             
             return new UserEntity(reader.GetString("DisplayName"))

@@ -14,33 +14,33 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
     {
         public IList<AuthenticationScheme> IdentityProviders { get; set; }
 
-        public string? ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; }
 
         public RegisterModel(SignInManager<Models.User> signInManager,
                              ILogger<RegisterModel> logger)
         {
-            _signInManager = signInManager;
-            _logger = logger;
+            this.signInManager = signInManager;
+            this.logger = logger;
 
             IdentityProviders = new List<AuthenticationScheme>();
         }
 
-        public async Task OnGetAsync(string? returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            IdentityProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            IdentityProviders = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (IdentityProviders != null &&
                 IdentityProviders.Count > 0)
             {
                 foreach (AuthenticationScheme provider in IdentityProviders)
                 {
-                    _logger.LogInformation($"{provider.DisplayName} available as an external identity provider.");
+                    logger.LogInformation($"{provider.DisplayName} available as an external identity provider.");
                 }
             }
         }
 
-        private readonly SignInManager<Models.User> _signInManager;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly SignInManager<Models.User> signInManager;
+        private readonly ILogger<RegisterModel> logger;
     }
 }

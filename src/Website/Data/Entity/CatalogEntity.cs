@@ -30,7 +30,7 @@ namespace BrickAtHeart.Communities.Data.Entity
             NormalizedName = normalizedName;
         }
 
-        public override bool Equals(object? entityA)
+        public override bool Equals(object entityA)
         {
             if (entityA is CatalogEntity entity)
             {

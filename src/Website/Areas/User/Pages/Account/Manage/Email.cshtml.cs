@@ -19,12 +19,12 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
         [Required]
         [EmailAddress]
         [Display(Name = "New email")]
-        public string? NewEmail { get; set; }
+        public string NewEmail { get; set; }
 
-        public string? OldEmail { get; set; }
+        public string OldEmail { get; set; }
 
         [TempData]
-        public string? StatusMessage { get; set; }
+        public string StatusMessage { get; set; }
 
         public EmailModel(UserManager<Models.User> userManager,
                           IEmailService emailService,
@@ -37,7 +37,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Models.User? user = await userManager.GetUserAsync(User);
+            Models.User user = await userManager.GetUserAsync(User);
 
             if (user == null)
             {
@@ -51,7 +51,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostChangeEmailAsync()
         {
-            Models.User? user = await userManager.GetUserAsync(User);
+            Models.User user = await userManager.GetUserAsync(User);
 
             if (user == null)
             {
@@ -65,15 +65,15 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
                 return Page();
             }
 
-            string? email = await userManager.GetEmailAsync(user);
+            string email = await userManager.GetEmailAsync(user);
 
             if (NewEmail != null &&
                 NewEmail != email)
             {
-                string? userId = await userManager.GetUserIdAsync(user);
-                string? code = await userManager.GenerateChangeEmailTokenAsync(user, NewEmail);
+                string userId = await userManager.GetUserIdAsync(user);
+                string code = await userManager.GenerateChangeEmailTokenAsync(user, NewEmail);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                string? callbackUrl = Url.Page("/Account/ConfirmEmailChange",
+                string callbackUrl = Url.Page("/Account/ConfirmEmailChange",
                                                 pageHandler: null,
                                                 values: new { area = "User", userId = userId, email = NewEmail, code = code },
                                                 protocol: Request.Scheme);
@@ -103,7 +103,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
-            Models.User? user = await userManager.GetUserAsync(User);
+            Models.User user = await userManager.GetUserAsync(User);
 
             if (user == null)
             {
@@ -117,12 +117,12 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
                 return Page();
             }
 
-            string? userId = await userManager.GetUserIdAsync(user);
-            string? email = await userManager.GetEmailAsync(user);
-            string? code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            string userId = await userManager.GetUserIdAsync(user);
+            string email = await userManager.GetEmailAsync(user);
+            string code = await userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-            string? callbackUrl = Url.Page("/Account/ConfirmEmail",
+            string callbackUrl = Url.Page("/Account/ConfirmEmail",
                                            pageHandler: null,
                                            values: new { area = "User", userId = userId, code = code },
                                            protocol: Request.Scheme);
@@ -149,7 +149,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         private async Task LoadAsync(Models.User user)
         {
-            var email = await userManager.GetEmailAsync(user);
+            string email = await userManager.GetEmailAsync(user);
 
             NewEmail = email;
             OldEmail = email;

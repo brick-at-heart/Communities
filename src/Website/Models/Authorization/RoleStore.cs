@@ -163,7 +163,7 @@ namespace BrickAtHeart.Communities.Models.Authorization
         {
             logger.LogInformation("Entered FindByIdAsync");
 
-            IRoleEntity? roleEntity;
+            IRoleEntity roleEntity;
 
             try
             {

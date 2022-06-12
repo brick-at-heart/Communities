@@ -39,7 +39,7 @@ namespace BrickAtHeart.Communities.Models
 
             ILoginEntity loginEntity = new LoginEntity(login.LoginProvider, login.ProviderKey)
             {
-                ProviderKey = login.ProviderDisplayName,
+                ProviderDisplayName = login.ProviderDisplayName,
                 UserId = user.Id
             };
 
@@ -437,6 +437,11 @@ namespace BrickAtHeart.Communities.Models
 
         private User LoadModel(IUserEntity entity)
         {
+            if (entity == null)
+            {
+                return null;
+            }
+
             return new User(entity.DisplayName)
             {
                 Id = entity.Id,

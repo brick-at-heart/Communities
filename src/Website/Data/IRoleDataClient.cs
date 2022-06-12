@@ -21,7 +21,7 @@ namespace BrickAtHeart.Communities.Data
 
         Task<IList<IRightEntity>> RetrieveRightsByRoleIdAsync(long roleId, CancellationToken cancellationToken = new());
 
-        Task<IRoleEntity?> RetrieveRoleByRoleIdAsync(long roleId, CancellationToken cancellationToken = new());
+        Task<IRoleEntity> RetrieveRoleByRoleIdAsync(long roleId, CancellationToken cancellationToken = new());
 
         Task<IList<IRoleEntity>> RetrieveRolesByUserGroupIdAsync(long userGroupId, CancellationToken cancellationToken = new());
 

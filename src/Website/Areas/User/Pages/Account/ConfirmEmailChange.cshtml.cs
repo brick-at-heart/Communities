@@ -11,7 +11,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
     public class ConfirmEmailChangeModel : PageModel
     {
         [TempData]
-        public string? StatusMessage { get; set; }
+        public string StatusMessage { get; set; }
 
         public ConfirmEmailChangeModel(UserManager<Models.User> userManager,
                                             SignInManager<Models.User> signInManager,

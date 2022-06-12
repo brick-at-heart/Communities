@@ -262,7 +262,7 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IRoleEntity?> RetrieveRoleByRoleIdAsync(long roleId, CancellationToken cancellationToken)
+        public async Task<IRoleEntity> RetrieveRoleByRoleIdAsync(long roleId, CancellationToken cancellationToken)
         {
             logger.LogInformation("Entered RetrieveRoleByRoleIdAsync");
 

@@ -12,7 +12,7 @@ namespace BrickAtHeart.Communities.Data
             this.logger = logger;
         }
 
-        private readonly string? connectionString;
+        private readonly string connectionString;
         private readonly ILogger<SqlServerDataClient> logger;
     }
 }

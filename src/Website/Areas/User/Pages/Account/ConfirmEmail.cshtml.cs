@@ -12,14 +12,12 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         [TempData]
-        public string? StatusMessage { get; set; }
+        public string StatusMessage { get; set; }
 
         public ConfirmEmailModel(UserManager<Models.User> userManager,
-                                 IEmailService emailService,
                                  ILogger<ConfirmEmailModel> logger)
         {
             this.userManager = userManager;
-            this.emailService = emailService;
             this.logger = logger;
         }
 
@@ -46,7 +44,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 
             if (result.Succeeded)
             {
-                StatusMessage = "Thank you for confirming your email. In order to fully engage, the LUG Administrator must approve your account.";
+                StatusMessage = "Thank you for confirming your email. In order to fully engage, please join one or more communities.";
             }
             else
             {
@@ -58,6 +56,5 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 
         private readonly UserManager<Models.User> userManager;
         private readonly ILogger<ConfirmEmailModel> logger;
-        private readonly IEmailService emailService;
     }
 }

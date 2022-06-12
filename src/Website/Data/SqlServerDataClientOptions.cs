@@ -2,8 +2,8 @@
 {
     public class SqlServerDataClientOptions
     {
-        public const string Section = "BrickAtHeart:Communities:Data";
+        public const string Section = "Communities";
 
-        public string? ConnectionString { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

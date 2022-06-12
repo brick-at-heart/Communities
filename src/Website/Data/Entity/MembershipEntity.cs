@@ -14,7 +14,7 @@
 
         public bool IsPrimary { get; set; }
 
-        public string? SlackMemberId { get; set; }
+        public string SlackMemberId { get; set; }
 
         //public string SurName { get; set; }
 

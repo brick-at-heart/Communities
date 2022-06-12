@@ -9,8 +9,8 @@ namespace BrickAtHeart.Communities.Models.Attributes
         public static string GetPolicyName( this Right right )
         {
             Type enumType = right.GetType();
-            string? name = Enum.GetName(enumType, right);
-            PolicyNameAttribute? attribute = null;
+            string name = Enum.GetName(enumType, right);
+            PolicyNameAttribute attribute = null;
 
             if (name != null)
             {

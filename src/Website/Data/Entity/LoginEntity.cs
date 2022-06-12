@@ -2,7 +2,7 @@
 {
     public class LoginEntity : ILoginEntity
     {
-        public string? ProviderDisplayName { get; set; }
+        public string ProviderDisplayName { get; set; }
 
         public string ProviderId { get; set; }
 
