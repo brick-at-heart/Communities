@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION: '5.0.400'
+  DOTNET_VERSION: '6.0.300'
 
 jobs:
   build-and-publish:
@@ -30,8 +30,8 @@ jobs:
 
       # Run dotnet build and publish
       - name: Build Solution
-        run: dotnet build ./src/Headlight.sln --configuration Release
+        run: dotnet build ./src/Website/Website.csproj --configuration Release
 
       # Publish output
       - name: Publish
-        run: dotnet publish ./src/Headlight.sln -c Release -o Drop
+        run: dotnet publish ./src/Website/Website.csproj -c Release -o Drop
