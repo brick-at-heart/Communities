@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -18,7 +17,7 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
     [AllowAnonymous]
-    public class ExternalLoginModel : PageModel
+    public class ExternalLoginModel : CommunityBasePageModel
     {
         [TempData]
         public string StatusMessage { get; set; }
@@ -32,12 +31,18 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
         [BindProperty]
         public string ReturnUrl { get; set; }
 
-        public ExternalLoginModel(SignInManager<Models.User> signInManager,
+        public ExternalLoginModel(UserStore userStore,
+                                  MembershipStore membershipStore,
+                                  CommunityStore communityStore,
+                                  SignInManager<Models.User> signInManager,
                                   UserManager<Models.User> userManager,
                                   ILookupNormalizer normalizer,
                                   IEmailService emailService,
                                   IOptions<SystemSettings> systemSettings,
-                                  ILogger<ExternalLoginModel> logger)
+                                  ILogger<ExternalLoginModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
@@ -93,6 +98,18 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
             {
                 logger.LogInformation($"{loginInfo.Principal?.Identity?.Name} was blocked from logging in, because they are locked out.");
                 return RedirectToPage("./Lockout");
+            }
+
+            if (signInResult.IsNotAllowed)
+            {
+                Models.User user = await userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
+
+                if (user != null &&
+                    !user.EmailConfirmed)
+                {
+                    logger.LogInformation($"{loginInfo.Principal?.Identity?.Name} tried to register, but was blocked because they already have an account pending email confirmation.");
+                    return RedirectToPage("./RegisterConfirmation", new { user.Email});
+                }
             }
 
             // If the user does not have an account, then ask the user to create an account.

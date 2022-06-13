@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace BrickAtHeart.Communities.Areas.User.ViewModels
+namespace BrickAtHeart.Communities.Areas.User.PageModels
 {
     public class ProfilePageModel
     {

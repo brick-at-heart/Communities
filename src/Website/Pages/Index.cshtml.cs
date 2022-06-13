@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using BrickAtHeart.Communities.Models;
 using Microsoft.Extensions.Logging;
 
 namespace BrickAtHeart.Communities.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : CommunityBasePageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(UserStore userStore,
+                          MembershipStore membershipStore,
+                          CommunityStore communityStore,
+                          ILogger<IndexModel> logger) :
+            base(userStore, membershipStore, communityStore)
         {
             _logger = logger;
         }
@@ -16,5 +18,7 @@ namespace BrickAtHeart.Communities.Pages
         {
 
         }
+
+        private readonly ILogger<IndexModel> _logger;
     }
 }

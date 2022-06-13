@@ -1,20 +1,21 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using BrickAtHeart.Communities.Models;
+﻿using BrickAtHeart.Communities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
-    public class LogoutModel : PageModel
+    public class LogoutModel : CommunityBasePageModel
     {
-        public LogoutModel(SignInManager<Models.User> signInManager,
-                           ILogger<LogoutModel> logger)
+        public LogoutModel(UserStore userStore,
+                           MembershipStore membershipStore,
+                           CommunityStore communityStore,
+                           SignInManager<Models.User> signInManager,
+                           ILogger<LogoutModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             this.signInManager = signInManager;
             this.logger = logger;

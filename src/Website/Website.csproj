@@ -45,7 +45,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Administration\" />
-    <Folder Include="Areas\Community\" />
     <Folder Include="wwwroot\css\bootstrap\" />
   </ItemGroup>
 

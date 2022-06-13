@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BrickAtHeart.Communities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System.Text;
@@ -8,14 +8,20 @@ using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
-    public class ConfirmEmailChangeModel : PageModel
+    public class ConfirmEmailChangeModel : CommunityBasePageModel
     {
         [TempData]
         public string StatusMessage { get; set; }
 
-        public ConfirmEmailChangeModel(UserManager<Models.User> userManager,
-                                            SignInManager<Models.User> signInManager,
-                                            ILogger<ConfirmEmailChangeModel> logger)
+        public ConfirmEmailChangeModel(UserStore userStore,
+                                       MembershipStore membershipStore,
+                                       CommunityStore communityStore,
+                                       UserManager<Models.User> userManager,
+                                       SignInManager<Models.User> signInManager,
+                                       ILogger<ConfirmEmailChangeModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;

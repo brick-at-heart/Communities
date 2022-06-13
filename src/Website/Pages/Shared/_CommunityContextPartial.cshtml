@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Communities.Models;
+
+@inject SignInManager<Models.User> SignInManager;
+
+@model CommunityBasePageModel;
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow p-0">
+        <div class="container align-items-end justify-content-end text-end">
+            <div class="px-1 py-1">
+                Community: 
+                @if (Model.Communities.Count > 0)
+                {
+                    <select class="form-select">
+                        <option value="1">Kenosha LEGO User Group | KLUG</option>
+                        <option value="2">Wisconsin LEGO User Group | WisLUG</option>
+                    </select>
+                }
+            </div>
+            <a class="nav-link text-dark" asp-area="Community" asp-page="/Index">Join</a>
+            <a class="nav-link text-dark" asp-area="Community" asp-page="/Create">New</a>
+        </div>
+    </nav>
+}

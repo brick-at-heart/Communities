@@ -1,7 +1,6 @@
-﻿using BrickAtHeart.Communities.Services.Email;
+﻿using BrickAtHeart.Communities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System.Text;
@@ -9,13 +8,19 @@ using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
-    public class ConfirmEmailModel : PageModel
+    public class ConfirmEmailModel : CommunityBasePageModel
     {
         [TempData]
         public string StatusMessage { get; set; }
 
-        public ConfirmEmailModel(UserManager<Models.User> userManager,
-                                 ILogger<ConfirmEmailModel> logger)
+        public ConfirmEmailModel(UserStore userStore,
+                                 MembershipStore membershipStore,
+                                 CommunityStore communityStore,
+                                 UserManager<Models.User> userManager,
+                                 ILogger<ConfirmEmailModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             this.userManager = userManager;
             this.logger = logger;

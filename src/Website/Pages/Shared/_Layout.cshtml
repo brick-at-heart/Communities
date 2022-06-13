@@ -14,8 +14,8 @@
     </environment>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+    <header class="mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">
                     Communities
@@ -37,6 +37,7 @@
                 </div>
             </div>
         </nav>
+        <partial name="_CommunityContextPartial" />
     </header>
     <div class="container">
         <main role="main" class="pb-3">

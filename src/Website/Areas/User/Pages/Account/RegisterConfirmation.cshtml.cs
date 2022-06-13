@@ -1,15 +1,21 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BrickAtHeart.Communities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterConfirmationModel : PageModel
+    public class RegisterConfirmationModel : CommunityBasePageModel
     {
-        public RegisterConfirmationModel(UserManager<Models.User> userManager)
+        public RegisterConfirmationModel(UserStore userStore,
+                                         MembershipStore membershipStore,
+                                         CommunityStore communityStore,
+                                         UserManager<Models.User> userManager) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             this.userManager = userManager;
         }

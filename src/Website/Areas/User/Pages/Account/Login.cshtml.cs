@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using BrickAtHeart.Communities.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
-    public class LoginModel : PageModel
+    public class LoginModel : CommunityBasePageModel
     {
         public IList<AuthenticationScheme> IdentityProviders { get; set; }
 
@@ -18,8 +18,14 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public LoginModel(SignInManager<Models.User> signInManager,
-                          ILogger<LoginModel> logger)
+        public LoginModel(UserStore userStore,
+                          MembershipStore membershipStore,
+                          CommunityStore communityStore,
+                          SignInManager<Models.User> signInManager,
+                          ILogger<LoginModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             this.signInManager = signInManager;
             this.logger = logger;
