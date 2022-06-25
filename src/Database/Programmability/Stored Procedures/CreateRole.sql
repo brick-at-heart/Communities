@@ -1,10 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[CreateRole]
 (
-	@id					BIGINT OUTPUT,
-	@roleName			NVARCHAR(256),
-	@normalizedRoleName	NVARCHAR(256),
-	@communityId		BIGINT,
-	@isDefault			BIT
+	@id						BIGINT OUTPUT,
+	@roleName				NVARCHAR(256),
+	@normalizedRoleName		NVARCHAR(256),
+	@communityId			BIGINT,
+	@isCommunityDefault		BIT,
+	@isSystemGeneratedOwner	BIT
 )
 AS
 BEGIN
@@ -14,14 +15,16 @@ BEGIN
 		[RoleName],
 		[NormalizedRoleName],
 		[CommunityId],
-		[IsDefault]
+		[IsCommunityDefault],
+		[IsSystemGeneratedOwner]
 	)
 	VALUES
 	(
 		@roleName,
 		@normalizedRoleName,
 		@communityId,
-		@isDefault
+		@isCommunityDefault,
+		@isSystemGeneratedOwner
 	);
 
 	SET @id = SCOPE_IDENTITY();

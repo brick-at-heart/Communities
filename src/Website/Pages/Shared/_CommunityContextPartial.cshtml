@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using Communities.Models;
+@using Communities.Models.Extensions;
 
 @inject SignInManager<Models.User> SignInManager;
 
@@ -8,19 +9,37 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow p-0">
-        <div class="container align-items-end justify-content-end text-end">
+        <div class="container justify-content-end">
+            <label for="communityOptions">Community:</label>
             <div class="px-1 py-1">
-                Community: 
-                @if (Model.Communities.Count > 0)
-                {
-                    <select class="form-select">
-                        <option value="1">Kenosha LEGO User Group | KLUG</option>
-                        <option value="2">Wisconsin LEGO User Group | WisLUG</option>
-                    </select>
+                @{
+                    IList<Community> communities = Model.GetCommunitiesForUser(User.GetUserId()).Result;
+
+                    if (communities.Count == 0)
+                    {
+                                    <select id="communityOptions" class="form-select" disabled>
+                                        <option value="-1">Join or Create a Community</option>
+                                    </select>
+                    }
+                    else if (communities.Count == 1)
+                    {
+                                    <select id="communityOptions" class="form-select" disabled>
+                                        <option value="@communities.First().Id">@communities.First().DisplayName</option>
+                                    </select>
+                    }
+                    else
+                    {
+                        <select id="communityOptions" class="form-select" onchange="selectedCommunityChange(this);">
+                            @foreach(Community community in communities)
+                            {
+                                <option value="@community.Id">@community.DisplayName</option>
+                            }
+                        </select>
+                    }
                 }
             </div>
             <a class="nav-link text-dark" asp-area="Community" asp-page="/Index">Join</a>
-            <a class="nav-link text-dark" asp-area="Community" asp-page="/Create">New</a>
+            <a class="nav-link text-dark" asp-area="Community" asp-page="/Create">Create</a>
         </div>
     </nav>
 }

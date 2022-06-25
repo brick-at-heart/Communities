@@ -11,13 +11,9 @@ namespace BrickAtHeart.Communities.Data
 
         Task DeleteMembershipAsync(IMembershipEntity membershipEntity, CancellationToken cancellationToken = new());
 
-        Task<ICommunityEntity> RetrieveCurrentUserGroupAsync(long userId, CancellationToken cancellationToken = new());
-
         Task<IMembershipEntity> RetrieveMembershipByMembershipIdAsync(long membershipId, CancellationToken cancellationToken = new());
 
-        Task<IList<ICommunityEntity>> RetrieveUserGroupsByUserIdAsync(long userId, CancellationToken cancellationToken = new());
-
-        Task<IList<ICommunityEntity>> RetrieveMembershipsByUserGroupIdAsync(long userGroupId, CancellationToken cancellationToken = new());
+        Task<IList<IMembershipEntity>> RetrieveMembershipsByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new());
 
         Task<IList<IMembershipEntity>> RetrieveMembershipsByUserIdAsync(long userId, CancellationToken cancellationToken = new());
 

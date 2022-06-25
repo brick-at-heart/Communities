@@ -14,9 +14,11 @@ namespace BrickAtHeart.Communities.Models
     public class UserStore : IUserPasswordStore<User>, IUserEmailStore<User>, IUserClaimStore<User>, IUserLoginStore<User>, IUserPhoneNumberStore<User>
     {
         public UserStore( IUserDataClient userDataClient,
+                          ILookupNormalizer normalizer,
                           ILogger<UserStore> logger)
         {
             this.userDataClient = userDataClient;
+            this.normalizer = normalizer;
             this.logger = logger;
         }
 
@@ -199,7 +201,7 @@ namespace BrickAtHeart.Communities.Models
             logger.LogInformation("Entered GetNormalizedEmailAsync");
 
             logger.LogInformation("Successfully Leaving GetNormalizedEmailAsync");
-            return Task.FromResult(user.NormalizedEmail);
+            return Task.FromResult(normalizer.NormalizeEmail(user.Email));
         }
 
         public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = new())
@@ -424,7 +426,7 @@ namespace BrickAtHeart.Communities.Models
                 GivenName = user.GivenName,
                 IsActive = user.IsActive,
                 IsApproved = user.IsApproved,
-                NormalizedEmail = user.NormalizedEmail,
+                NormalizedEmail = normalizer.NormalizeEmail(user.Email),
                 PhoneNumber = user.PhoneNumber,
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 PostalCode = user.PostalCode,
@@ -467,6 +469,7 @@ namespace BrickAtHeart.Communities.Models
         }
 
         private readonly IUserDataClient userDataClient;
+        private readonly ILookupNormalizer normalizer;
         private readonly ILogger<UserStore> logger;
     }
 }

@@ -62,7 +62,7 @@ namespace BrickAtHeart.Communities
 
             services.AddScoped<IUserDataClient, SqlServerDataClient>();
 
-            services.AddIdentity<User,Role>()
+            services.AddIdentity<User, Role>()
                 .AddUserStore<UserStore>()
                 .AddRoleStore<RoleStore>()
                 .AddDefaultTokenProviders();

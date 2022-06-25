@@ -3,3 +3,27 @@
 @{
     ViewData["Title"] = "Create Community";
 }
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="NewCommunity.FullName">Full Name</label>
+            <input asp-for="NewCommunity.FullName" class="form-control" />
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="NewCommunity.ShortName">Short Name</label>
+            <input asp-for="NewCommunity.ShortName" class="form-control" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="NewCommunity.JoinType">Join Type:</label>
+            <select asp-for="NewCommunity.JoinType" asp-items="Html.GetEnumSelectList<CommunityJoinType>()" class="form-control" ></select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-dark">Save</button>
+    <button type="submit" class="btn btn-dark" asp-page-handler="Clear">Clear</button>
+    <button type="submit" class="btn btn-dark" asp-page-handler="Cancel">Cancel</button>
+</form>

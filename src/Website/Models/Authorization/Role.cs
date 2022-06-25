@@ -6,6 +6,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
     {
         public long CommunityId { get; set; }
 
-        public bool IsDefault { get; set; }
+        public bool IsCommunityDefault { get; set; }
+
+        public bool IsSystemGeneratedOwner { get; set;}
     }
 }

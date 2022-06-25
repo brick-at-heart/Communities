@@ -19,9 +19,6 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : CommunityBasePageModel
     {
-        [TempData]
-        public string StatusMessage { get; set; }
-
         [BindProperty]
         public string ProviderDisplayName { get; set; }
 

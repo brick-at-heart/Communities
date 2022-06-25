@@ -47,7 +47,7 @@ namespace BrickAtHeart.Communities.Data
             }
             catch (Exception e)
             {
-                logger.LogWarning(e, "Error in CreateMembershipRoleAsync");
+                logger.LogError(e, "Error in CreateMembershipRoleAsync");
                 throw;
             }
         }
@@ -82,9 +82,13 @@ namespace BrickAtHeart.Communities.Data
             command.Parameters.Add(communityIdParameter);
             logger.LogTrace($"Parameter {communityIdParameter.ParameterName} of type {communityIdParameter.SqlDbType} has value {communityIdParameter.Value}");
 
-            SqlParameter isDefaultParameter = new SqlParameter("@isDefault", SqlDbType.Bit) { Value = roleEntity.IsDefault };
+            SqlParameter isDefaultParameter = new SqlParameter("@isCommunityDefault", SqlDbType.Bit) { Value = roleEntity.IsCommunityDefault };
             command.Parameters.Add(isDefaultParameter);
             logger.LogTrace($"Parameter {isDefaultParameter.ParameterName} of type {isDefaultParameter.SqlDbType} has value {isDefaultParameter.Value}");
+
+            SqlParameter isOwnerParameter = new SqlParameter("@isSystemGeneratedOwner", SqlDbType.Bit) {  Value = roleEntity.IsSystemGeneratedOwner};
+            command.Parameters.Add(isOwnerParameter);
+            logger.LogTrace($"Parameter {isOwnerParameter.ParameterName} of type {isOwnerParameter.SqlDbType} has value {isOwnerParameter.Value}");
 
             await conn.OpenAsync(cancellationToken);
 
@@ -354,7 +358,7 @@ namespace BrickAtHeart.Communities.Data
             command.Parameters.Add(communityIdParameter);
             logger.LogTrace($"Parameter {communityIdParameter.ParameterName} of type {communityIdParameter.SqlDbType} has value {communityIdParameter.Value}");
 
-            SqlParameter isDefaultParameter = new SqlParameter("@isDefault", SqlDbType.Bit) { Value = roleEntity.IsDefault };
+            SqlParameter isDefaultParameter = new SqlParameter("@isDefault", SqlDbType.Bit) { Value = roleEntity.IsCommunityDefault };
             command.Parameters.Add(isDefaultParameter);
             logger.LogTrace($"Parameter {isDefaultParameter.ParameterName} of type {isDefaultParameter.SqlDbType} has value {isDefaultParameter.Value}");
 
@@ -412,7 +416,7 @@ namespace BrickAtHeart.Communities.Data
             while (await reader.ReadAsync(cancellationToken))
             {
                 result.Add(
-                    new MembershipRoleEntity(reader.GetString("DisplayName"), reader.GetString("GivenName"), reader.GetString("SurName"))
+                    new MembershipRoleEntity
                     {
                         Id = reader.GetInt64("Id"),
                         MembershipId = reader.GetInt64("MembershipId"),
@@ -449,11 +453,14 @@ namespace BrickAtHeart.Communities.Data
             while (await reader.ReadAsync(cancellationToken))
             {
                 results.Add(
-                    new RoleEntity(reader.GetString("RoleName"), reader.GetString("NormalizedRoleName"))
+                    new RoleEntity
                     {
                         Id = reader.GetInt64("Id"),
                         CommunityId = reader.GetInt64("UserGroupId"),
-                        IsDefault = reader.GetBoolean("IsDefault")
+                        IsCommunityDefault = reader.GetBoolean("IsCommunityDefault"),
+                        IsSystemGeneratedOwner = reader.GetBoolean("IsSystemGeneratedOwner"),
+                        Name = reader.GetString("RoleName"),
+                        NormalizedName = reader.GetString("NormalizedRoleName")
                     }
                 );
             }
@@ -465,11 +472,13 @@ namespace BrickAtHeart.Communities.Data
         {
             await reader.ReadAsync(cancellationToken);
 
-            return new RoleEntity(reader.GetString("RoleName"), reader.GetString("NormalizedRoleName"))
-            {
+            return new RoleEntity            {
                 Id = reader.GetInt64("Id"),
                 CommunityId = reader.GetInt64("UserGroupId"),
-                IsDefault = reader.GetBoolean("IsDefault")
+                IsCommunityDefault = reader.GetBoolean("IsCommunityDefault"),
+                IsSystemGeneratedOwner = reader.GetBoolean("IsSystemGeneratedOwner"),
+                Name = reader.GetString("RoleName"),
+                NormalizedName = reader.GetString("NormalizedRoleName")
             };
         }
     }

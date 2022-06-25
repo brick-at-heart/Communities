@@ -29,13 +29,7 @@ namespace BrickAtHeart.Communities.Models.Authorization
             try
             {
                 await roleDataClient.CreateRoleAsync(roleEntity, cancellationToken);
-
                 role.Id = roleEntity.Id;
-                role.Name = roleEntity.Name;
-                role.NormalizedName = roleEntity.NormalizedName;
-                role.CommunityId = role.CommunityId;
-                role.IsDefault = role.IsDefault;
-
                 logger.LogInformation("Successfully Leaving CreateAsync");
 
                 return IdentityResult.Success;
@@ -57,20 +51,17 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IdentityResult> CreateRoleMembershipAsync(RoleMembership roleMembership, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> CreateMembershipRoleAsync(MembershipRole membershipRole, CancellationToken cancellationToken = new())
         {
-            IMembershipRoleEntity membershipRoleEntity = LoadEntity(roleMembership);
+            IMembershipRoleEntity membershipRoleEntity = LoadEntity(membershipRole);
 
             try
             {
                 await roleDataClient.CreateMembershipRoleAsync(membershipRoleEntity, cancellationToken);
 
-                roleMembership.Id = membershipRoleEntity.Id;
-                roleMembership.MembershipId = membershipRoleEntity.MembershipId;
-                roleMembership.RoleId = membershipRoleEntity.RoleId;
-                //roleMembership.DisplayName = membershipRoleEntity.DisplayName;
-                //roleMembership.GivenName = membershipRoleEntity.GivenName;
-                //roleMembership.SurName = membershipRoleEntity.SurName;
+                membershipRole.Id = membershipRoleEntity.Id;
+                membershipRole.MembershipId = membershipRoleEntity.MembershipId;
+                membershipRole.RoleId = membershipRoleEntity.RoleId;
 
                 logger.LogInformation("Successfully Leaving CreateRoleMembershipAsync");
 
@@ -78,7 +69,7 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
             catch (Exception e)
             {
-                logger.LogWarning(e, $"Error in CreateRoleMembershipAsync {e.HResult}, {e.Message}");
+                logger.LogWarning(e, $"Error in CreateMembershipRoleAsync {e.HResult}, {e.Message}");
 
                 IdentityError[] errs =
                 {
@@ -124,7 +115,7 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IdentityResult> DeleteRoleMembershipAsync(RoleMembership roleMembership, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> DeleteRoleMembershipAsync(MembershipRole roleMembership, CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered DeleteRoleMembershipAsync");
 
@@ -251,14 +242,14 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IList<RoleMembership>> RetrieveRoleMembershipByRoleIdAsync(long roleId, CancellationToken cancellationToken = new())
+        public async Task<IList<MembershipRole>> RetrieveRoleMembershipByRoleIdAsync(long roleId, CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered RetrieveRoleMembershipByRoleIdAsync");
 
             try
             {
                 IList<IMembershipRoleEntity> membershipRoleEntities = await roleDataClient.RetrieveMembershipRolesByRoleIdAsync(roleId, cancellationToken);
-                IList<RoleMembership> roleMemberships = LoadModels(membershipRoleEntities);
+                IList<MembershipRole> roleMemberships = LoadModels(membershipRoleEntities);
 
                 logger.LogInformation("Successfully leaving RetrieveRoleMembershipByRoleIdAsync");
 
@@ -353,9 +344,9 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        private IMembershipRoleEntity LoadEntity(RoleMembership roleMembership)
+        private IMembershipRoleEntity LoadEntity(MembershipRole roleMembership)
         {
-            return new MembershipRoleEntity(roleMembership.DisplayName, roleMembership.GivenName, roleMembership.SurName)
+            return new MembershipRoleEntity
             {
                 Id = roleMembership.Id,
                 MembershipId = roleMembership.MembershipId,
@@ -374,13 +365,16 @@ namespace BrickAtHeart.Communities.Models.Authorization
 
         private IRoleEntity LoadEntity(Role role)
         {
-            return new RoleEntity(role.Name, role.NormalizedName)
+            role.NormalizedName = normalizer.NormalizeName(role.Name);
+
+            return new RoleEntity
             {
                 Id = role.Id,
                 Name = role.Name,
-                NormalizedName = normalizer.NormalizeName(role.NormalizedName),
+                NormalizedName = role.NormalizedName,
                 CommunityId = role.CommunityId,
-                IsDefault = role.IsDefault
+                IsCommunityDefault = role.IsCommunityDefault,
+                IsSystemGeneratedOwner = role.IsSystemGeneratedOwner
             };
         }
 
@@ -401,13 +395,13 @@ namespace BrickAtHeart.Communities.Models.Authorization
                 Name = roleEntity.Name,
                 NormalizedName = roleEntity.NormalizedName,
                 CommunityId = roleEntity.CommunityId,
-                IsDefault = roleEntity.IsDefault
+                IsCommunityDefault = roleEntity.IsCommunityDefault
             };
         }
 
-        private RoleMembership LoadModel(IMembershipRoleEntity membershipRoleEntity)
+        private MembershipRole LoadModel(IMembershipRoleEntity membershipRoleEntity)
         {
-            return new RoleMembership(membershipRoleEntity.DisplayName, membershipRoleEntity.GivenName, membershipRoleEntity.SurName)
+            return new MembershipRole
             {
                 Id = membershipRoleEntity.Id,
                 MembershipId = membershipRoleEntity.MembershipId,
@@ -445,9 +439,9 @@ namespace BrickAtHeart.Communities.Models.Authorization
             return roles;
         }
 
-        private IList<RoleMembership> LoadModels(IList<IMembershipRoleEntity> membershipRoleEntities)
+        private IList<MembershipRole> LoadModels(IList<IMembershipRoleEntity> membershipRoleEntities)
         {
-            IList<RoleMembership> roleMemberships = new List<RoleMembership>();
+            IList<MembershipRole> roleMemberships = new List<MembershipRole>();
 
             if (membershipRoleEntities != null)
             {

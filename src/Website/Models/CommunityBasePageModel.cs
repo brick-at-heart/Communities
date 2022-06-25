@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using BrickAtHeart.Communities.Models.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Models
 {
     public class CommunityBasePageModel : PageModel
     {
-        public long CurrentComunityId { get; private set; }
-
-        public List<Community> Communities { get; private set; }        
+        [TempData]
+        public string StatusMessage { get; set; }
 
         public CommunityBasePageModel(UserStore userStore,
                                       MembershipStore membershipStore,
@@ -16,9 +19,11 @@ namespace BrickAtHeart.Communities.Models
             this.userStore = userStore;
             this.membershipStore = membershipStore;
             this.communityStore = communityStore;
+        }
 
-            CurrentComunityId = 0;
-            Communities = new List<Community>();
+        public async Task<IList<Community>> GetCommunitiesForUser(long userId)
+        {
+            return await communityStore.RetrieveCommunitiesByUserIdAsync(userId);
         }
 
         protected readonly UserStore userStore;

@@ -6,7 +6,9 @@
 
         long Id { get; set; }
 
-        bool IsDefault { get; set; }
+        bool IsCommunityDefault { get; set; }
+
+        bool IsSystemGeneratedOwner { get; set; }
 
         string Name { get; set; }
 

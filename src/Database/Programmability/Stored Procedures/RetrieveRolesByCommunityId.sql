@@ -17,7 +17,7 @@ BEGIN
 		R.[RoleName],
 		R.[NormalizedRoleName],
 		R.[CommunityId],
-		R.[IsDefault]
+		R.[IsCommunityDefault]
 	FROM [dbo].[Role] R
 		INNER JOIN [dbo].[Community] C
 		 ON R.[CommunityId] = C.[Id];

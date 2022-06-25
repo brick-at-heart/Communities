@@ -109,7 +109,7 @@
     <Build Include="Programmability\Stored Procedures\RetrieveUserByEmail.sql" />
     <Build Include="Programmability\Stored Procedures\RetrieveUserByLogin.sql" />
     <Build Include="Programmability\Stored Procedures\RetrieveUserByUserId.sql" />
-    <Build Include="Programmability\Stored Procedures\RetrieveCommunity.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveCommunitiesByUserId.sql" />
     <Build Include="Programmability\Stored Procedures\RetrieveCommunityByFullName.sql" />
     <Build Include="Programmability\Stored Procedures\RetrieveCommunityByShortName.sql" />
     <Build Include="Programmability\Stored Procedures\RetrieveCommunityByCommunityId.sql" />
@@ -125,7 +125,7 @@
     <None Include="Programmability\Stored Procedures\Script.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Database.Azure.publish.xml" />
     <None Include="Database.Local.publish.xml" />
+    <None Include="Database.Azure-Test.publish.xml" />
   </ItemGroup>
 </Project>

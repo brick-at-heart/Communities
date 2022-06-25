@@ -10,9 +10,6 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
     public class ConfirmEmailModel : CommunityBasePageModel
     {
-        [TempData]
-        public string StatusMessage { get; set; }
-
         public ConfirmEmailModel(UserStore userStore,
                                  MembershipStore membershipStore,
                                  CommunityStore communityStore,
