@@ -26,12 +26,9 @@ namespace BrickAtHeart.Communities.Areas.Community.Pages
             this.logger = logger;
         }
 
-        public void OnGet(string redirectUrl = "")
+        public void OnGet()
         {
-            NewCommunity = new CommunityCreationPageModel
-            {
-                RedirectUrl = redirectUrl
-            };
+            NewCommunity = new CommunityCreationPageModel();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -92,11 +89,6 @@ namespace BrickAtHeart.Communities.Areas.Community.Pages
             }
 
             return Page();
-        }
-
-        public IActionResult OnPostCancel()
-        {
-            return RedirectToPage(NewCommunity.RedirectUrl);
         }
 
         public IActionResult OnPostClear()

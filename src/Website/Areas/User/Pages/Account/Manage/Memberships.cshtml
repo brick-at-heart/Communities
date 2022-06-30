@@ -1,0 +1,52 @@
+﻿@page
+@using BrickAtHeart.Communities.Areas.User.PageModels
+@model MembershipsModel
+@{
+    ViewData["Title"] = "Memberships";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form name="manage-memberships" method="post">
+    <div class="container">
+        <h2>Manage</h2>
+        @if (Model.Memberships != null && Model.Memberships.Any())
+        {
+            foreach (MembershipPageModel membership in Model.Memberships.OrderBy(c => c.DisplayName))
+            {
+                <div class="row mb-3">
+                    <div class="col">@membership.DisplayName</div>
+                    <div class="col text-right">
+                        <a class="btn btn-dark" asp-area="User" asp-page="/Account/Manage/Profile" asp-route-membershipId="@membership.Id">Edit Profile</a>
+                        @{
+                            if (membership.IsCurrent || !membership.IsActive)
+                            {
+                                <button type="button" class="btn btn-dark" disabled>Set Current</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-dark" asp-page-handler="SetCurrent" asp-route-membershipId="@membership.Id">Set Current</button>
+                            }
+                        }
+                    </div>
+                </div>
+            }    
+        }
+        else
+        {
+            <div class="text-center">
+                You don't belong to any communities.
+            </div>
+        }
+        <h2>Join, Leave or Create</h2>
+        <div class="row mb-3">
+            <div class="col text-left">
+                <a class="btn btn-dark" asp-area="Community" asp-page="/Index">Join / Leave Community</a>
+                <a class="btn btn-dark" asp-area="Community" asp-page="/Create">Create Community</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

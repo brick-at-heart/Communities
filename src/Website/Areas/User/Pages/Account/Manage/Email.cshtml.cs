@@ -2,7 +2,6 @@
 using BrickAtHeart.Communities.Services.Email;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 {
-    public class EmailModel : PageModel
+    public class EmailModel : CommunityBasePageModel
     {
         public bool IsEmailConfirmed { get; set; }
 
@@ -21,14 +20,18 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
         [Display(Name = "New Email")]
         public string NewEmail { get; set; }
 
+        [Display(Name = "Old Email")]
         public string OldEmail { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
-        public EmailModel(UserManager<Models.User> userManager,
+        public EmailModel(UserStore userStore,
+                          MembershipStore membershipStore,
+                          CommunityStore communityStore,
+                          UserManager<Models.User> userManager,
                           IEmailService emailService,
-                          IOptions<SystemSettings> systemSettings)
+                          IOptions<SystemSettings> systemSettings) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             this.userManager = userManager;
             this.emailService = emailService;

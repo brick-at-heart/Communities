@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using BrickAtHeart.Communities.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 {
-    public class LinkedAccountsModel : PageModel
+    public class LinkedAccountsModel : CommunityBasePageModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }
 
@@ -17,12 +17,15 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         public bool ShowRemoveButton { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
-        public LinkedAccountsModel(UserManager<Models.User> userManager,
-                                    SignInManager<Models.User> signInManager,
-                                    ILogger<LinkedAccountsModel> logger)
+        public LinkedAccountsModel(UserStore userStore,
+                                   MembershipStore membershipStore,
+                                   CommunityStore communityStore,
+                                   UserManager<Models.User> userManager,
+                                   SignInManager<Models.User> signInManager,
+                                   ILogger<LinkedAccountsModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;

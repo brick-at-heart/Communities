@@ -7,6 +7,9 @@ BEGIN
 
 	DECLARE @TRUE	BIT	= 1;
 
+	DELETE FROM [dbo].[MembershipRole]
+	WHERE [MembershipId] = @id;
+
 	DELETE
 	FROM [dbo].[Membership]
 	WHERE [Id] = @id;

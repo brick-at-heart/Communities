@@ -46,6 +46,13 @@ namespace BrickAtHeart.Communities.Models
             return LoadModel(entity);
         }
 
+        public async Task<IList<Community>> RetrieveCommunitiesByJoinTypesAsync(byte joinTypes, CancellationToken cancellationToken = new ())
+        {
+            IList<ICommunityEntity> communities =  await communityDataClient.RetrieveCommunitiesByJoinTypeAsync(joinTypes, cancellationToken);
+
+            return LoadModels(communities);
+        }
+
         public async Task<Community> RetrieveCommunityByShortNameAsync(string shortName, CancellationToken cancellationToken = new CancellationToken())
         {
             shortName = normalizer.NormalizeName(shortName);

@@ -1,15 +1,13 @@
 ﻿@page
+@using BrickAtHeart.Communities.Models.Extensions
 @model LoginModel
-
 @{
-    ViewData["Title"] = "Log In";
+    ViewData["Title"] = "Login";
 }
 
 <div class="row">
     <div class="col-md">
         <section>
-            <h4>Please select from one of these identity providers:</h4>
-            <hr />
             @{
                 if (Model.IdentityProviders.Count == 0)
                 {
@@ -23,14 +21,15 @@
                 else
                 {
                     <form method="post" class="form-horizontal" id="external-account" asp-page="./ExternalLogin" asp-route-returnUtl="@Model.ReturnUrl">
-                        <div>
-                            <p>
-                                @foreach (AuthenticationScheme provider in Model.IdentityProviders)
-                                {
-                                    <button type="submit" class="btn btn-dark" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
+                        <div class="d-grid gap-2 col-3 mx-auto">
+                            @foreach (AuthenticationScheme provider in Model.IdentityProviders)
+                            {
+                                <button type="submit" class="btn btn-dark" name="provider" value="@provider.Name" title="Login using your @provider.DisplayName account">
+                                    <img src="@provider.GetLogoPath()" style="height: 21px; width: 21px;" />
+                                    Login with @provider.DisplayName
+                                </button>
+                            }
+                        </div>        
                     </form>
                 }
             }

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Folder Include="Areas\Administration\" />
     <Folder Include="wwwroot\css\bootstrap\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
   <ItemGroup>

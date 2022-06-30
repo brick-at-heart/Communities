@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 {
-    public class DeletePersonalDataModel : PageModel
+    public class DeleteAccountModel : PageModel
     {
         [Required]
         [DataType(DataType.Password)]
@@ -18,16 +18,14 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
         [BindProperty]
         public bool RequirePassword { get; set; }
 
-        public DeletePersonalDataModel(UserManager<Models.User> userManager,
-                                       SignInManager<Models.User> signInManager,
-                                       ILogger<DeletePersonalDataModel> logger)
+        public DeleteAccountModel(UserManager<Models.User> userManager,
+                                  SignInManager<Models.User> signInManager,
+                                  ILogger<DeleteAccountModel> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
         }
-
-
 
         public async Task<IActionResult> OnGet()
         {
@@ -79,6 +77,6 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         private readonly UserManager<Models.User> userManager;
         private readonly SignInManager<Models.User> signInManager;
-        private readonly ILogger<DeletePersonalDataModel> logger;
+        private readonly ILogger<DeleteAccountModel> logger;
     }
 }

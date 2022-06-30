@@ -38,15 +38,13 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task DeleteMembershipAsync(Membership membership, CancellationToken cancellationToken = new())
+        public async Task DeleteMembershipAsync(long membershipId, CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered DeleteMembershipAsync");
 
-            IMembershipEntity membershipEntity = LoadEntity(membership);
-
             try
             {
-                await membershipDataClient.DeleteMembershipAsync(membershipEntity, cancellationToken);
+                await membershipDataClient.DeleteMembershipAsync(membershipId, cancellationToken);
 
                 logger.LogInformation("Successfully Leaving DeleteMembershipAsync");
             }

@@ -1,7 +1,5 @@
-﻿using BrickAtHeart.Communities.Models.Extensions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,9 +19,10 @@ namespace BrickAtHeart.Communities.Models
             this.communityStore = communityStore;
         }
 
-        public async Task<IList<Community>> GetCommunitiesForUser(long userId)
+        public async Task<Community> GetCurrentCommunityForUser(long userId)
         {
-            return await communityStore.RetrieveCommunitiesByUserIdAsync(userId);
+            Membership membership = (await membershipStore.RetrieveMembershipsByUserIdAsync(userId)).FirstOrDefault(m => m.IsCurrent);
+            return (await communityStore.RetrieveCommunitiesByUserIdAsync(userId)).FirstOrDefault(c => c.Id == membership.CommunityId);
         }
 
         protected readonly UserStore userStore;

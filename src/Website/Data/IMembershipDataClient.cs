@@ -9,7 +9,7 @@ namespace BrickAtHeart.Communities.Data
     {
         Task CreateMembershipAsync(IMembershipEntity membershipEntity, CancellationToken cancellationToken = new());
 
-        Task DeleteMembershipAsync(IMembershipEntity membershipEntity, CancellationToken cancellationToken = new());
+        Task DeleteMembershipAsync(long membershipId, CancellationToken cancellationToken = new());
 
         Task<IMembershipEntity> RetrieveMembershipByMembershipIdAsync(long membershipId, CancellationToken cancellationToken = new());
 

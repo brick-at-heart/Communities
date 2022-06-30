@@ -13,33 +13,18 @@
             <label for="communityOptions">Community:</label>
             <div class="px-1 py-1">
                 @{
-                    IList<Community> communities = Model.GetCommunitiesForUser(User.GetUserId()).Result;
+                    Community currentCommunity = Model.GetCurrentCommunityForUser(User.GetUserId()).Result;
 
-                    if (communities.Count == 0)
+                    if (currentCommunity == null)
                     {
-                                    <select id="communityOptions" class="form-select" disabled>
-                                        <option value="-1">Join or Create a Community</option>
-                                    </select>
-                    }
-                    else if (communities.Count == 1)
-                    {
-                                    <select id="communityOptions" class="form-select" disabled>
-                                        <option value="@communities.First().Id">@communities.First().DisplayName</option>
-                                    </select>
+                        <a asp-area="Community" asp-page="/Index">Join or Create a Community</a>
                     }
                     else
                     {
-                        <select id="communityOptions" class="form-select" onchange="selectedCommunityChange(this);">
-                            @foreach(Community community in communities)
-                            {
-                                <option value="@community.Id">@community.DisplayName</option>
-                            }
-                        </select>
+                        <a asp-area="User" asp-page="/Account/Manage/Memberships">@currentCommunity.DisplayName</a>
                     }
                 }
             </div>
-            <a class="nav-link text-dark" asp-area="Community" asp-page="/Index">Join</a>
-            <a class="nav-link text-dark" asp-area="Community" asp-page="/Create">Create</a>
         </div>
     </nav>
 }

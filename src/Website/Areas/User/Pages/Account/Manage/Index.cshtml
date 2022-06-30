@@ -1,0 +1,76 @@
+﻿@page
+@model BrickAtHeart.Communities.Areas.User.Pages.Account.Manage.Profile.IndexModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="profile-form" method="post">
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="DisplayName"></label>
+            <input asp-for="DisplayName" class="form-control" tabindex="1"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Country"></label>
+            <input asp-for="Country" class="form-control" tabindex="6"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="GivenName"></label>
+            <input asp-for="GivenName" class="form-control" tabindex="2"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="StreetAddressLine1"></label>
+            <input asp-for="StreetAddressLine1" class="form-control" tabindex="7"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="SurName"></label>
+            <input asp-for="SurName" class="form-control" tabindex="3"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="StreetAddressLine2"></label>
+            <input asp-for="StreetAddressLine2" class="form-control" tabindex="8"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" disabled/>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="City"></label>
+            <input asp-for="City" class="form-control" tabindex="9"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control" tabindex="4"/>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Region"></label>
+            <input asp-for="Region" class="form-control" tabindex="10"/>
+        </div>
+        <div class="form-group col-md-2">
+            <label asp-for="PostalCode"></label>
+            <input asp-for="PostalCode" class="form-control" tabindex="11"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="DateOfBirth"></label>
+            <input asp-for="DateOfBirth" class="form-control" tabindex="5"/>
+        </div>
+    </div>
+    <button id="update-profile-button" type="submit" class="btn btn-dark" tabindex="12">Save</button>
+    <a id="download-profile-button" asp-area="User" asp-page="/Account/Manage/Download" class="btn btn-dark" tabindex="13">Download</a>
+    <button id="delete-profile-button" type="submit" class="btn btn-danger" asp-page-handler="Delete" tabindex="14">Delete</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
