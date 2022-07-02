@@ -9,7 +9,7 @@ BEGIN
 	SET LastAccess = GetUtcDate()
 	FROM [dbo].[Role] R
 		INNER JOIN [dbo].[Community] C
-		 ON R.[CommunityId] = C.[Id]
+			ON R.[CommunityId] = C.[Id]
 	WHERE C.[Id] = @communityId;
 
 	SELECT
@@ -17,9 +17,11 @@ BEGIN
 		R.[RoleName],
 		R.[NormalizedRoleName],
 		R.[CommunityId],
-		R.[IsCommunityDefault]
+		R.[IsCommunityDefault],
+		R.[IsSystemGeneratedOwner]
 	FROM [dbo].[Role] R
 		INNER JOIN [dbo].[Community] C
-		 ON R.[CommunityId] = C.[Id];
+			ON R.[CommunityId] = C.[Id]
+	WHERE C.[Id] = @communityId;
 
 END

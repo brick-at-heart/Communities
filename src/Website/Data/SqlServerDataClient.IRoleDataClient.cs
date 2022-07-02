@@ -298,20 +298,20 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IRoleEntity>> RetrieveRolesByUserGroupIdAsync(long userGroupId, CancellationToken cancellationToken)
+        public async Task<IList<IRoleEntity>> RetrieveRolesByCommunityIdAsync(long communityId, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Entered RetrieveRolesByUserGroupIdAsync");
+            logger.LogInformation("Entered RetrieveRolesByCommunityIdAsync");
 
             await using SqlConnection conn = new SqlConnection(connectionString);
-            await using SqlCommand command = new SqlCommand("[dbo].[RetrieveRolesByUserGroupId]", conn)
+            await using SqlCommand command = new SqlCommand("[dbo].[RetrieveRolesByCommunityId]", conn)
             {
                 CommandType = CommandType.StoredProcedure
             };
             logger.LogTrace($"Preparing to call stored procedure: {command.CommandText}");
 
-            SqlParameter userGroupIdParameter = new SqlParameter("@userGroupId", SqlDbType.BigInt) { Value = userGroupId };
-            command.Parameters.Add(userGroupIdParameter);
-            logger.LogTrace($"Parameter {userGroupIdParameter.ParameterName} of type {userGroupIdParameter.SqlDbType} has value {userGroupIdParameter.Value}");
+            SqlParameter communityIdParameter = new SqlParameter("@communityId", SqlDbType.BigInt) { Value = communityId };
+            command.Parameters.Add(communityIdParameter);
+            logger.LogTrace($"Parameter {communityIdParameter.ParameterName} of type {communityIdParameter.SqlDbType} has value {communityIdParameter.Value}");
 
             await conn.OpenAsync(cancellationToken);
 
@@ -324,7 +324,7 @@ namespace BrickAtHeart.Communities.Data
             }
             catch (Exception e)
             {
-                logger.LogError(e, "Error in RetrieveRoleByRoleIdAsync");
+                logger.LogError(e, "Error in RetrieveRolesByCommunityIdAsync");
                 IList<IRoleEntity> result = new List<IRoleEntity>();
 
                 return result;
@@ -456,7 +456,7 @@ namespace BrickAtHeart.Communities.Data
                     new RoleEntity
                     {
                         Id = reader.GetInt64("Id"),
-                        CommunityId = reader.GetInt64("UserGroupId"),
+                        CommunityId = reader.GetInt64("CommunityId"),
                         IsCommunityDefault = reader.GetBoolean("IsCommunityDefault"),
                         IsSystemGeneratedOwner = reader.GetBoolean("IsSystemGeneratedOwner"),
                         Name = reader.GetString("RoleName"),
@@ -474,7 +474,7 @@ namespace BrickAtHeart.Communities.Data
 
             return new RoleEntity            {
                 Id = reader.GetInt64("Id"),
-                CommunityId = reader.GetInt64("UserGroupId"),
+                CommunityId = reader.GetInt64("CommunityId"),
                 IsCommunityDefault = reader.GetBoolean("IsCommunityDefault"),
                 IsSystemGeneratedOwner = reader.GetBoolean("IsSystemGeneratedOwner"),
                 Name = reader.GetString("RoleName"),

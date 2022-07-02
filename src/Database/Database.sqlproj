@@ -119,6 +119,7 @@
     <Build Include="Programmability\Stored Procedures\UpdateRoleRight.sql" />
     <Build Include="Programmability\Stored Procedures\UpdateUser.sql" />
     <Build Include="Programmability\Stored Procedures\UpdateCommunity.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveUsersByCommunityId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

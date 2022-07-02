@@ -25,6 +25,8 @@ namespace BrickAtHeart.Communities.Data
 
         Task<IUserEntity> RetrieveUserByUserNameAsync(string normalizedUserName, CancellationToken cancellationToken = new());
 
+        Task<IList<IUserEntity>> RetrieveUsersByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new());
+
         Task UpdateUserAsync(IUserEntity userEntity, CancellationToken cancellationToken = new());
     }
 }

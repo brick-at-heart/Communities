@@ -37,6 +37,13 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
+        public async Task<Community> RetrieveCommunityByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new())
+        {
+            ICommunityEntity entity = await communityDataClient.RetrieveCommunityByCommunityIdAsync(communityId, cancellationToken);
+
+            return LoadModel(entity);
+        }
+
         public async Task<Community> RetrieveCommunityByFullNameAsync(string fullName, CancellationToken cancellationToken = new ())
         {
             fullName = normalizer.NormalizeName(fullName);
@@ -67,6 +74,11 @@ namespace BrickAtHeart.Communities.Models
             IList<ICommunityEntity> communities = await communityDataClient.RetrieveCommunitiesByUserIdAsync(userId, cancellationToken);
 
             return LoadModels(communities);
+        }
+
+        public async Task UpdateCommunityAsync(Community community, CancellationToken cancellationToken = new ())
+        {
+            await communityDataClient.UpdateCommunityAsync(LoadEntity(community), cancellationToken);
         }
 
         private ICommunityEntity LoadEntity(Community community)

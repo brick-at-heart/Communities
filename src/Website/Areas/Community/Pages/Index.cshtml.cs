@@ -34,10 +34,13 @@ namespace BrickAtHeart.Communities.Areas.Community.Pages
 
         public async Task<IActionResult> OnPostJoinAsync(long communityid)
         {
+            Models.Community community = await communityStore.RetrieveCommunityByCommunityIdAsync(communityid);
+
             Membership membership = new Membership
             {
                 CommunityId = communityid,
                 UserId = User.GetUserId(),
+                IsActive = community?.JoinType == CommunityJoinType.Open
             };
 
             await membershipStore.CreateMembershipAsync(membership);

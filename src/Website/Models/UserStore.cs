@@ -119,7 +119,7 @@ namespace BrickAtHeart.Communities.Models
 
             IUserEntity entity = await userDataClient.RetrieveUserByEmailAsync(normalizedEmail, cancellationToken);
 
-            return LoadModel(entity);
+            return LoadUserModel(entity);
         }
 
         public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken = new())
@@ -128,7 +128,7 @@ namespace BrickAtHeart.Communities.Models
 
             IUserEntity entity = await userDataClient.RetrieveUserByUserIdAsync(long.Parse(userId), cancellationToken);
 
-            return LoadModel(entity);
+            return LoadUserModel(entity);
         }
 
         public async Task<User> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken = new())
@@ -137,7 +137,7 @@ namespace BrickAtHeart.Communities.Models
 
             IUserEntity entity = await userDataClient.RetrieveUserByLoginAsync(loginProvider, providerKey, cancellationToken);
 
-            return LoadModel(entity);
+            return LoadUserModel(entity);
         }
 
         public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = new())
@@ -146,7 +146,18 @@ namespace BrickAtHeart.Communities.Models
 
             IUserEntity entity = await userDataClient.RetrieveUserByUserNameAsync(normalizedUserName, cancellationToken);
 
-            return LoadModel(entity);
+            return LoadUserModel(entity);
+        }
+
+        public async Task<IList<User>> FindByCommunityId(long communityId, CancellationToken cancellationToken = new ())
+        {
+            logger.LogInformation("Entered FindByCommuniyId");
+
+            IList<IUserEntity> entities = await userDataClient.RetrieveUsersByCommunityIdAsync(communityId, cancellationToken);
+            IList<User> result = LoadUserModels(entities);
+
+            logger.LogInformation("Successfully Leaving FindByCommunityId");
+            return result;
         }
 
         public Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken = new())
@@ -415,12 +426,13 @@ namespace BrickAtHeart.Communities.Models
 
         private IUserEntity LoadEntity(User user)
         {
-            return new UserEntity(user.DisplayName)
+            return new UserEntity()
             {
                 Id = user.Id,
                 City = user.City,
                 Country = user.Country,
                 DateOfBirth = user.DateOfBirth,
+                DisplayName = user.DisplayName,
                 Email = user.Email,
                 EmailConfirmed = user.EmailConfirmed,
                 GivenName = user.GivenName,
@@ -437,7 +449,7 @@ namespace BrickAtHeart.Communities.Models
             };
         }
 
-        private User LoadModel(IUserEntity entity)
+        private User LoadUserModel(IUserEntity entity)
         {
             if (entity == null)
             {
@@ -466,6 +478,23 @@ namespace BrickAtHeart.Communities.Models
                 SurName = entity.SurName,
                 UserName = entity.DisplayName
             };
+        }
+
+        private IList<User> LoadUserModels(IList<IUserEntity> entities)
+        {
+            List<User> result = new List<User>();
+
+            if (entities == null && entities.Count == 0)
+            {
+                return result;
+            }
+
+            foreach(IUserEntity entity in entities)
+            {
+                result.Add(LoadUserModel(entity));
+            }
+
+            return result;
         }
 
         private readonly IUserDataClient userDataClient;

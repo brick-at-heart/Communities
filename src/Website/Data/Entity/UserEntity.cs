@@ -39,10 +39,5 @@ namespace BrickAtHeart.Communities.Data.Entity
         public string StreetAddressLine2 { get; set; }
 
         public string SurName { get; set; }
-
-        public UserEntity(string displayName)
-        {
-            DisplayName = displayName;
-        }
     }
 }

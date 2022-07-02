@@ -1,0 +1,100 @@
+﻿@page
+@model BrickAtHeart.Communities.Areas.Administration.Pages.Roles.RoleEditModel
+@using BrickAtHeart.Communities.Areas.Administration.PageModels
+@using BrickAtHeart.Communities.Models.Authorization
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<h1 class="text-muted my-3">@Model.Role.Name</h1>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="manage-roles" method="post">
+    <h2>Members</h2>
+    <div class="row mb-3">
+        <div class="col-md-5">
+            Assigned
+        </div>
+        <div class="col-md-2">
+            Actions
+        </div>
+        <div class="col-md-5">
+            Available
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-5">
+            <select name="from" id="multiselect" class="form-control" size="8" multiple="multiple">
+                @foreach (MembershipRoleDetailsPageModel member in Model.AssignedMembers)
+                {
+                    <option value="@member.MembershipId">@member.DisplayName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="button" id="multiselect_rightAll" class="btn btn-dark"><i class="glyphicon glyphicon-forward">>>></i></button>
+            <br />
+            <button type="button" id="multiselect_rightSelected" class="btn btn-dark"><i class="glyphicon glyphicon-chevron-right">></i></button>
+            <br />
+            <button type="button" id="multiselect_leftSelected" class="btn btn-dark"><i class="glyphicon glyphicon-chevron-left"><</i></button>
+            <br />
+            <button type="button" id="multiselect_leftAll" class="btn btn-dark"><i class="glyphicon glyphicon-backward"><<<</i></button>
+        </div>
+        <div class="col-md-5">
+            <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple">
+                @foreach (MembershipRoleDetailsPageModel member in Model.AvailableMembers)
+                {
+                    <option value="@member.MembershipId">@member.DisplayName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <h2>Rights</h2>
+    @foreach (RoleRight right in Model.Rights)
+    {
+        <div class="row mb-3">
+            <div class="col-md-6">@right.Name</div>
+            <div class="col-md-6">
+                <select name="@string.Concat("Right_", right.Id)" class="form-select" aria-label="@right.Name">
+                    @if (right.State == BrickAtHeart.Communities.Models.Authorization.RightState.Unknown)
+                    {
+                        <option value="2" selected></option>
+                    }
+                    else
+                    {
+                        <option value="2"></option>
+                    }
+                    @if (right.State == BrickAtHeart.Communities.Models.Authorization.RightState.Granted)
+                    {
+                        <option value="1" selected>Granted</option>
+                    }
+                    else
+                    {
+                        <option value="1">Granted</option>
+                    }
+                    @if (right.State == BrickAtHeart.Communities.Models.Authorization.RightState.Denied)
+                    {
+                        <option value="0" selected>Denied</option>
+                    }
+                    else
+                    {
+                        <option value="0">Denied</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    <div class="row mb-3">
+        <input type="hidden" name="RoleId" value="@Model.Role.Id" />
+        <div class="col-md-12">
+            <button id="update-role-button" type="submit" class="btn btn-dark">Save</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/multiselect.min.js"></script>
+    <script>
+        $('#multiselect').multiselect();
+    </script>
+}

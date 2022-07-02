@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using Communities.Models;
-@using Communities.Models.Extensions;
 
 @inject SignInManager<Models.User> SignInManager;
 
@@ -13,7 +12,7 @@
             <label for="communityOptions">Community:</label>
             <div class="px-1 py-1">
                 @{
-                    Community currentCommunity = Model.GetCurrentCommunityForUser(User.GetUserId()).Result;
+                    Community currentCommunity = Model.GetCurrentCommunityForUser(User).Result;
 
                     if (currentCommunity == null)
                     {

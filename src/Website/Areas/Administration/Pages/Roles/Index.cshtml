@@ -1,0 +1,52 @@
+﻿@page
+@using BrickAtHeart.Communities.Areas.Administration.PageModels
+@using BrickAtHeart.Communities.Models.Attributes;
+@using BrickAtHeart.Communities.Models.Authorization;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model BrickAtHeart.Communities.Areas.Administration.Pages.Roles.RoleIndexModel
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="manage-roles" method="post">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            Name
+        </div>
+        <div class="col-md-4">
+            Actions
+        </div>
+    </div>
+    @foreach (RoleDetailsPageModel details in Model.Roles)
+    {
+        <div class="row mb-3">
+            <div class="col-md-8">
+                @details.Name
+            </div>
+            <div class="col-md-4">
+                @if ((await AuthorizationService.AuthorizeAsync(User, Right.UpdateRole.GetPolicyName())).Succeeded)
+                {
+                    <a class="btn btn-dark" asp-area="Administration" asp-page="/Roles/Edit" asp-route-roleId="@details.Id">Edit</a>
+                }
+                @if ((await AuthorizationService.AuthorizeAsync(User, Right.DeleteRole.GetPolicyName())).Succeeded)
+                {
+                    <button type="submit" class="btn btn-dark" asp-page-handler="DeleteRole" asp-route-roleId="@details.Id">Delete</button>
+                }
+            </div>
+        </div>
+    }
+    <div class="row mb-3">
+        <div class="col-md-12">
+            @if ((await AuthorizationService.AuthorizeAsync(User, Right.CreateRole.GetPolicyName())).Succeeded)
+            {
+                <a class="btn btn-dark" asp-area="Administration" asp-page="/Roles/Create" asp-route-communityId="@Model.CommunityId">Create</a>
+            }
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

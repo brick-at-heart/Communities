@@ -262,22 +262,22 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IList<Role>> RetrieveRolesByUserGroupIdAsync(long userGroupId, CancellationToken cancellationToken = new())
+        public async Task<IList<Role>> RetrieveRolesByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new())
         {
-            logger.LogInformation("Entered RetrieveRolesByUserGroupIdAsync");
+            logger.LogInformation("Entered RetrieveRolesByCommunityIdAsync");
 
             try
             {
-                IList<IRoleEntity> roleEntity = await roleDataClient.RetrieveRolesByUserGroupIdAsync(userGroupId, cancellationToken);
+                IList<IRoleEntity> roleEntity = await roleDataClient.RetrieveRolesByCommunityIdAsync(communityId, cancellationToken);
                 IList<Role> roles = LoadModels(roleEntity);
 
-                logger.LogInformation("Successfully Leaving RetrieveRolesByUserGroupIdAsync");
+                logger.LogInformation("Successfully Leaving RetrieveRolesByCommunityIdAsync");
 
                 return roles;
             }
             catch (Exception e)
             {
-                logger.LogWarning(e, $"Error in RetrieveRolesByUserGroupIdAsync {e.HResult}, {e.Message}");
+                logger.LogWarning(e, $"Error in RetrieveRolesByCommunityIdAsync {e.HResult}, {e.Message}");
                 throw;
             }
         }

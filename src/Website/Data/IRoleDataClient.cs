@@ -23,7 +23,7 @@ namespace BrickAtHeart.Communities.Data
 
         Task<IRoleEntity> RetrieveRoleByRoleIdAsync(long roleId, CancellationToken cancellationToken = new());
 
-        Task<IList<IRoleEntity>> RetrieveRolesByUserGroupIdAsync(long userGroupId, CancellationToken cancellationToken = new());
+        Task<IList<IRoleEntity>> RetrieveRolesByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new());
 
         Task UpdateRoleAsync(IRoleEntity roleEntity, CancellationToken cancellationToken = new());
 
