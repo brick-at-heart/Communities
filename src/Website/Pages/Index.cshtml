@@ -1,5 +1,15 @@
 ﻿@page
+@using BrickAtHeart.Communities.Models
+@using Microsoft.AspNetCore.Identity
 @model IndexModel
+@inject SignInManager<User> SignInManager
 @{
-    ViewData["Title"] = "Welcome";
+    if(SignInManager.IsSignedIn(User))
+    {
+        ViewData["Title"] = "Dashboard";
+    }
+    else
+    {
+        ViewData["Title"] = "Welcome";
+    }
 }

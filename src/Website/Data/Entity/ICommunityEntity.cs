@@ -14,6 +14,6 @@
 
         string ShortName { get; set; }
 
-        string? SlackWorkspaceId { get; set; }
+        string SlackWorkspaceId { get; set; }
     }
 }

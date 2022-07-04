@@ -14,14 +14,6 @@
 
         public string ShortName { get; set; }
 
-        public string? SlackWorkspaceId { get; set; }
-
-        public CommunityEntity(string fullName, string normalizedFullName, string normalizedShortName, string shortName)
-        {
-            FullName = fullName;
-            NormalizedFullName = normalizedFullName;
-            NormalizedShortName = normalizedShortName;
-            ShortName = shortName;
-        }
+        public string SlackWorkspaceId { get; set; }
     }
 }

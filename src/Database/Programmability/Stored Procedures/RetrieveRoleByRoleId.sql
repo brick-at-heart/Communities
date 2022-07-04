@@ -14,7 +14,8 @@ BEGIN
 		R.[RoleName],
 		R.[NormalizedRoleName],
 		R.[CommunityId],
-		R.[IsDefault]
+		R.[IsCommunityDefault],
+		R.[IsSystemGeneratedOwner]
 	FROM [dbo].[Role] R
 	WHERE R.[Id] = @roleId;
 

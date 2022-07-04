@@ -2,9 +2,7 @@
 {
     public interface IMembershipEntity
     {
-        //string DisplayName { get; set; }
-
-        //string GivenName { get; set; }
+        long CommunityId { get; set; }
 
         long Id { get; set; }
 
@@ -14,11 +12,7 @@
 
         bool IsPrimary { get; set; }
 
-        string? SlackMemberId { get; set; }
-
-        //string SurName { get; set; }
-
-        long UserGroupId { get; set; }
+        string SlackMemberId { get; set; }
 
         long UserId { get; set; }
     }

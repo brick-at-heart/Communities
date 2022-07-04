@@ -14,6 +14,7 @@ BEGIN
 
 	DECLARE @primaryUserGroup	BIGINT;
 	DECLARE @currentUserGroup	BIGINT;
+	DECLARE @defaultRole		BIGINT;
 
 	SELECT @primaryUserGroup = M.[CommunityId]
 	FROM [dbo].[Membership] M
@@ -51,5 +52,21 @@ BEGIN
 	);
 
 	SET @id = SCOPE_IDENTITY();
+
+	SELECT @defaultRole = R.Id
+	FROM [dbo].[Role] R
+	WHERE R.[CommunityId] = @communityId
+	  AND R.[IsCommunityDefault] = @TRUE;
+
+	INSERT INTO [dbo].[MembershipRole]
+	(
+		[MembershipId],
+		[RoleId]
+	)
+	VALUES
+	(
+		@id,
+		@defaultRole
+	)
 
 END

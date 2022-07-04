@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Communities.Models;
+
+@inject SignInManager<Models.User> SignInManager;
+
+@model CommunityBasePageModel;
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow p-0">
+        <div class="container justify-content-end">
+            <label for="communityOptions">Community:</label>
+            <div class="px-1 py-1">
+                @{
+                    Community currentCommunity = Model.GetCurrentCommunityForUser(User).Result;
+
+                    if (currentCommunity == null)
+                    {
+                        <a asp-area="Community" asp-page="/Index">Join or Create a Community</a>
+                    }
+                    else
+                    {
+                        <a asp-area="User" asp-page="/Account/Manage/Memberships">@currentCommunity.DisplayName</a>
+                    }
+                }
+            </div>
+        </div>
+    </nav>
+}

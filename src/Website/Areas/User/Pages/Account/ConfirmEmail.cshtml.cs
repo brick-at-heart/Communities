@@ -1,48 +1,63 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
+﻿using BrickAtHeart.Communities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
-    public class ConfirmEmailModel : PageModel
+    public class ConfirmEmailModel : CommunityBasePageModel
     {
-        private readonly UserManager<Models.User> _userManager;
-
-        public ConfirmEmailModel(UserManager<Models.User> userManager)
+        public ConfirmEmailModel(UserStore userStore,
+                                 MembershipStore membershipStore,
+                                 CommunityStore communityStore,
+                                 UserManager<Models.User> userManager,
+                                 ILogger<ConfirmEmailModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
-            _userManager = userManager;
+            this.userManager = userManager;
+            this.logger = logger;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [TempData]
-        public string StatusMessage { get; set; }
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public async Task<IActionResult> OnGetAsync(string userId,
+                                                    string code)
         {
             if (userId == null || code == null)
             {
-                return RedirectToPage("/Index");
+                logger.LogWarning("An email validation was attempted which was missing either the userId or code.");
+                StatusMessage = "There was an error with your request.";
+                return Page();
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            Models.User user = await userManager.FindByIdAsync(userId);
+
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                logger.LogWarning("An email validation was attempted but the user was not found.");
+                StatusMessage = "There was an error retrieving your account.";
+                return Page();
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            IdentityResult result = await userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                StatusMessage = "Thank you for confirming your email. In order to fully engage, please join one or more communities.";
+            }
+            else
+            {
+                StatusMessage = "There was an error validatig your email.";
+            }
+
             return Page();
         }
+
+        private readonly UserManager<Models.User> userManager;
+        private readonly ILogger<ConfirmEmailModel> logger;
     }
 }

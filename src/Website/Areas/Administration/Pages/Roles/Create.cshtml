@@ -1,0 +1,27 @@
+﻿@page
+
+@model BrickAtHeart.Communities.Areas.Administration.Pages.Roles.RoleCreateModel
+
+@{
+    ViewData["Title"] = "Create Role";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="create-role" method="post">
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="RoleDetails.Name"></label>
+            <input asp-for="RoleDetails.Name" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <input type="hidden" name="CommunityId" value="@Model.CommunityId" />
+        <div class="col-md-12">
+            <button id="create-role-button" type="submit" class="btn btn-dark">Save</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

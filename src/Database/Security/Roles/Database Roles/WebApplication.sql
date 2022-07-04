@@ -82,7 +82,10 @@ GO
 GRANT EXECUTE ON [dbo].[RetrieveUserByUserId] TO [WebApplication];
 GO
 
-GRANT EXECUTE ON [dbo].[RetrieveCommunity] TO [WebApplication];
+GRANT EXECUTE ON [dbo].[RetrieveUsersByCommunityId] TO [WebApplication];
+GO
+
+GRANT EXECUTE ON [dbo].[RetrieveCommunitiesByUserId] TO [WebApplication];
 GO
 
 GRANT EXECUTE ON [dbo].[RetrieveCommunityByFullName] TO [WebApplication];

@@ -5,12 +5,14 @@ namespace BrickAtHeart.Communities.Data.Entity
     [DebuggerDisplay("{Name}, Id = {Id}, User Group Id = {UserGroupId}")]
     public class CatalogEntity : ICatalogEntity
     {
-        public static bool operator == (CatalogEntity entityA, CatalogEntity entityB)
+        public static bool operator == (CatalogEntity entityA,
+                                        CatalogEntity entityB)
         {
             return entityA.NormalizedName == entityB.NormalizedName;
         }
 
-        public static bool operator != (CatalogEntity entityA, CatalogEntity entityB)
+        public static bool operator != (CatalogEntity entityA,
+                                        CatalogEntity entityB)
         {
             return entityA.NormalizedName != entityB.NormalizedName;
         }
@@ -23,14 +25,14 @@ namespace BrickAtHeart.Communities.Data.Entity
 
         public long UserGroupId { get; set; }
 
-        public CatalogEntity( string name,
-                              string normalizedName )
+        public CatalogEntity(string name,
+                             string normalizedName)
         {
             Name = name;
             NormalizedName = normalizedName;
         }
 
-        public override bool Equals(object? entityA)
+        public override bool Equals(object entityA)
         {
             if (entityA is CatalogEntity entity)
             {

@@ -1,25 +1,32 @@
 ﻿@page
-@model PersonalDataModel
+
+@model BrickAtHeart.Communities.Areas.User.Pages.Account.Manage.ProfileModel
+
 @{
-    ViewData["Title"] = "Personal Data";
+    ViewData["Title"] = "Profile";
 }
 
-<h3>@ViewData["Title"]</h3>
-
-<div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="account-manage-profile-form" method="post">
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="SlackMemberId">Slack Member Id</label>
+            <input asp-for="SlackMemberId" class="form-control" tabindex="1" />
+        </div>
     </div>
-</div>
+    <div class="row mb-3">
+        <div class="form-group col-md-4">
+            <label asp-for="IsActive">Is Active</label>
+            <input asp-for="IsActive" class="form-check-inline" tabindex="2" disabled />
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="IsPrimary">Is Primary</label>
+            <input asp-for="IsPrimary" class="form-check-inline" tabindex="3" />
+        </div>
+    </div>
+    <input type="hidden" asp-for="MembershipId" />
+    <button id="update-profile-button" type="submit" class="btn btn-dark" tabindex="4">Save</button>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

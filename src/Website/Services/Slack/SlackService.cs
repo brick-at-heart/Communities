@@ -12,11 +12,16 @@ namespace BrickAtHeart.Communities.Services.Slack
         public SlackService( HttpClient httpClient,
                              ILogger<SlackService> logger )
         {
-            _httpClient = httpClient;
-            _logger = logger;
+            this.httpClient = httpClient;
+            this.logger = logger;
         }
 
-        public async Task UpdateAppHome( string slackUserId )
+        public async Task LookupUserByEmail(string email)
+        {
+            HttpResponseMessage response = await httpClient.GetAsync($"/users.lookupByEmail?email={email}");
+        }
+
+        public async Task UpdateAppHome(string slackUserId)
         {
             var message = new
             {
@@ -45,10 +50,10 @@ namespace BrickAtHeart.Communities.Services.Slack
 
             StringContent content = new StringContent(JsonSerializer.Serialize(message), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync("views.publish", content);
+            HttpResponseMessage response = await httpClient.PostAsync("views.publish", content);
         }
 
-        private readonly HttpClient _httpClient;
-        private readonly ILogger<SlackService> _logger;
+        private readonly HttpClient httpClient;
+        private readonly ILogger<SlackService> logger;
     }
 }

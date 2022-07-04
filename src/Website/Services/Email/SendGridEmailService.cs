@@ -19,7 +19,7 @@ namespace BrickAtHeart.Communities.Services.Email
         ///  Logs message
         /// </param>
         public SendGridEmailService(IOptions<SendGridOptions> options,
-                                     ILogger<SendGridEmailService> logger)
+                                    ILogger<SendGridEmailService> logger)
         {
             this.options = options.Value;
             this.logger = logger;
@@ -49,7 +49,11 @@ namespace BrickAtHeart.Communities.Services.Email
         ///  True, if the message sent successfully;
         ///  False, if there was an error
         /// </returns>
-        public async Task<bool> SendSingleEmailAsync([NotNull] IEmailAddress sender, [NotNull] IEmailAddress recipient, [NotNull] string subject, [NotNull] string htmlMessage, [NotNull] string plainTextMessage)
+        public async Task<bool> SendSingleEmailAsync([NotNull] IEmailAddress sender,
+                                                     [NotNull] IEmailAddress recipient,
+                                                     [NotNull] string subject,
+                                                     [NotNull] string htmlMessage,
+                                                     [NotNull] string plainTextMessage)
         {
             _ = sender ?? throw new ArgumentNullException(nameof(sender));
             _ = recipient ?? throw new ArgumentNullException(nameof(recipient));
@@ -107,7 +111,10 @@ namespace BrickAtHeart.Communities.Services.Email
         ///  True, if the message sent successfully;
         ///  False, if there was an error
         /// </returns>
-        public async Task<bool> SendSingleEmailWithTemplateAsync(IEmailAddress sender, IEmailAddress recipient, string templateId, object dynamicData)
+        public async Task<bool> SendSingleEmailWithTemplateAsync(IEmailAddress sender,
+                                                                 IEmailAddress recipient,
+                                                                 string templateId,
+                                                                 object dynamicData)
         {
             _ = sender ?? throw new ArgumentNullException(nameof(sender));
             _ = recipient ?? throw new ArgumentNullException(nameof(recipient));

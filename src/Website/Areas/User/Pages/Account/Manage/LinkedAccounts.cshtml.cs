@@ -1,134 +1,82 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using BrickAtHeart.Communities.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using BrickAtHeart.Communities.Models;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 {
-    public class ExternalLoginsModel : PageModel
+    public class LinkedAccountsModel : CommunityBasePageModel
     {
-        private readonly UserManager<Models.User> _userManager;
-        private readonly SignInManager<Models.User> _signInManager;
-        private readonly IUserStore<Models.User> _userStore;
-
-        public ExternalLoginsModel(
-            UserManager<Models.User> userManager,
-            SignInManager<Models.User> signInManager,
-            IUserStore<Models.User> userStore)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _userStore = userStore;
-        }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<UserLoginInfo> CurrentLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> OtherLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public bool ShowRemoveButton { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [TempData]
-        public string StatusMessage { get; set; }
+        public LinkedAccountsModel(UserStore userStore,
+                                   MembershipStore membershipStore,
+                                   CommunityStore communityStore,
+                                   UserManager<Models.User> userManager,
+                                   SignInManager<Models.User> signInManager,
+                                   ILogger<LinkedAccountsModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.logger = logger;
+        }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            Models.User user = await userManager.GetUserAsync(User);
+
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            CurrentLogins = await _userManager.GetLoginsAsync(user);
-            OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
-                .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
-                .ToList();
-
-            string passwordHash = null;
-            if (_userStore is IUserPasswordStore<Models.User> userPasswordStore)
-            {
-                passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
-            }
-
-            ShowRemoveButton = passwordHash != null || CurrentLogins.Count > 1;
-            return Page();
-        }
-
-        public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
-            if (!result.Succeeded)
-            {
-                StatusMessage = "The external login was not removed.";
+                logger.LogWarning("There was an error loading an account.");
+                StatusMessage = "Error: There:  was an error loading your account.";
                 return RedirectToPage();
             }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "The external login was removed.";
-            return RedirectToPage();
-        }
+            CurrentLogins = await userManager.GetLoginsAsync(user);
+            OtherLogins = (await signInManager.GetExternalAuthenticationSchemesAsync())
+                .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
+                .ToList();
+            ShowRemoveButton = CurrentLogins.Count > 1;
 
-        public async Task<IActionResult> OnPostLinkLoginAsync(string provider)
-        {
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            // Request a redirect to the external login provider to link a login for the current user
-            var redirectUrl = Url.Page("./ExternalLogins", pageHandler: "LinkLoginCallback");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
-            return new ChallengeResult(provider, properties);
+            return Page();
         }
 
         public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            Models.User user = await userManager.GetUserAsync(User);
+
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                logger.LogWarning("There was an error loading an account.");
+                StatusMessage = "Error: There was an error loading your account.";
+                return RedirectToPage();
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var info = await _signInManager.GetExternalLoginInfoAsync(userId);
+            ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync(user.Id.ToString());
+
             if (info == null)
             {
-                throw new InvalidOperationException($"Unexpected error occurred loading external login info.");
+                logger.LogWarning($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
+                StatusMessage = "Error: There was an error loading your account.";
+                return RedirectToPage();
             }
 
-            var result = await _userManager.AddLoginAsync(user, info);
+            IdentityResult result = await userManager.AddLoginAsync(user, info);
+
             if (!result.Succeeded)
             {
-                StatusMessage = "The external login was not added. External logins can only be associated with one account.";
+                StatusMessage = "Error: The external login was not added. External logins can only be associated with one account.";
                 return RedirectToPage();
             }
 
@@ -138,5 +86,45 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
             StatusMessage = "The external login was added.";
             return RedirectToPage();
         }
+
+        public async Task<IActionResult> OnPostLinkLoginAsync(string provider)
+        {
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            // Request a redirect to the external login provider to link a login for the current user
+            var redirectUrl = Url.Page("./LinkedAccounts", pageHandler: "LinkLoginCallback");
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, userManager.GetUserId(User));
+            return new ChallengeResult(provider, properties);
+        }
+
+        public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider,
+                                                                string providerKey)
+        {
+            Models.User user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                logger.LogWarning("There was an error loading an account.");
+                StatusMessage = "Error: There was an error loading your account.";
+                return RedirectToPage();
+            }
+
+            IdentityResult result = await userManager.RemoveLoginAsync(user, loginProvider, providerKey);
+
+            if (!result.Succeeded)
+            {
+                StatusMessage = "Error: The external login was not removed.";
+                return RedirectToPage();
+            }
+
+            await signInManager.RefreshSignInAsync(user);
+            StatusMessage = "The external login was removed.";
+            return RedirectToPage();
+        }
+
+        private readonly UserManager<Models.User> userManager;
+        private readonly SignInManager<Models.User> signInManager;
+        private readonly ILogger<LinkedAccountsModel> logger;
     }
 }

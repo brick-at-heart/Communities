@@ -11,7 +11,8 @@ namespace BrickAtHeart.Communities.Data
 {
     public partial class SqlServerDataClient : IRoleDataClient
     {
-        public async Task CreateMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity, CancellationToken cancellationToken)
+        public async Task CreateMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity,
+                                                    CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateMembershipRoleAsync");
 
@@ -47,12 +48,13 @@ namespace BrickAtHeart.Communities.Data
             }
             catch (Exception e)
             {
-                logger.LogWarning(e, "Error in CreateMembershipRoleAsync");
+                logger.LogError(e, "Error in CreateMembershipRoleAsync");
                 throw;
             }
         }
 
-        public async Task CreateRoleAsync(IRoleEntity roleEntity, CancellationToken cancellationToken)
+        public async Task CreateRoleAsync(IRoleEntity roleEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateRoleAsync");
 
@@ -82,9 +84,13 @@ namespace BrickAtHeart.Communities.Data
             command.Parameters.Add(communityIdParameter);
             logger.LogTrace($"Parameter {communityIdParameter.ParameterName} of type {communityIdParameter.SqlDbType} has value {communityIdParameter.Value}");
 
-            SqlParameter isDefaultParameter = new SqlParameter("@isDefault", SqlDbType.Bit) { Value = roleEntity.IsDefault };
+            SqlParameter isDefaultParameter = new SqlParameter("@isCommunityDefault", SqlDbType.Bit) { Value = roleEntity.IsCommunityDefault };
             command.Parameters.Add(isDefaultParameter);
             logger.LogTrace($"Parameter {isDefaultParameter.ParameterName} of type {isDefaultParameter.SqlDbType} has value {isDefaultParameter.Value}");
+
+            SqlParameter isOwnerParameter = new SqlParameter("@isSystemGeneratedOwner", SqlDbType.Bit) {  Value = roleEntity.IsSystemGeneratedOwner};
+            command.Parameters.Add(isOwnerParameter);
+            logger.LogTrace($"Parameter {isOwnerParameter.ParameterName} of type {isOwnerParameter.SqlDbType} has value {isOwnerParameter.Value}");
 
             await conn.OpenAsync(cancellationToken);
 
@@ -101,7 +107,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity, CancellationToken cancellationToken)
+        public async Task DeleteMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity,
+                                                    CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteMembershipRoleAsync");
 
@@ -130,7 +137,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteRoleAsync(IRoleEntity roleEntity, CancellationToken cancellationToken)
+        public async Task DeleteRoleAsync(IRoleEntity roleEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteRoleAsync");
 
@@ -159,7 +167,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IMembershipRoleEntity>> RetrieveMembershipRolesByRoleIdAsync(long roleId, CancellationToken cancellationToken)
+        public async Task<IList<IMembershipRoleEntity>> RetrieveMembershipRolesByRoleIdAsync(long roleId,
+                                                                                             CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipRolesByRoleIdAsync");
 
@@ -192,7 +201,9 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IRightEntity>> RetrieveRightByRightIdUserIdAsync(long rightId, long userId, CancellationToken cancellationToken = new())
+        public async Task<IList<IRightEntity>> RetrieveRightByRightIdUserIdAsync(long rightId,
+                                                                                 long userId,
+                                                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveRightByRightIdUserIdAsync");
 
@@ -229,7 +240,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IRightEntity>> RetrieveRightsByRoleIdAsync(long roleId, CancellationToken cancellationToken)
+        public async Task<IList<IRightEntity>> RetrieveRightsByRoleIdAsync(long roleId,
+                                                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveRightsByRoleIdAsync");
 
@@ -262,7 +274,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IRoleEntity?> RetrieveRoleByRoleIdAsync(long roleId, CancellationToken cancellationToken)
+        public async Task<IRoleEntity> RetrieveRoleByRoleIdAsync(long roleId,
+                                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveRoleByRoleIdAsync");
 
@@ -294,20 +307,21 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IRoleEntity>> RetrieveRolesByUserGroupIdAsync(long userGroupId, CancellationToken cancellationToken)
+        public async Task<IList<IRoleEntity>> RetrieveRolesByCommunityIdAsync(long communityId,
+                                                                              CancellationToken cancellationToken = new ())
         {
-            logger.LogInformation("Entered RetrieveRolesByUserGroupIdAsync");
+            logger.LogInformation("Entered RetrieveRolesByCommunityIdAsync");
 
             await using SqlConnection conn = new SqlConnection(connectionString);
-            await using SqlCommand command = new SqlCommand("[dbo].[RetrieveRolesByUserGroupId]", conn)
+            await using SqlCommand command = new SqlCommand("[dbo].[RetrieveRolesByCommunityId]", conn)
             {
                 CommandType = CommandType.StoredProcedure
             };
             logger.LogTrace($"Preparing to call stored procedure: {command.CommandText}");
 
-            SqlParameter userGroupIdParameter = new SqlParameter("@userGroupId", SqlDbType.BigInt) { Value = userGroupId };
-            command.Parameters.Add(userGroupIdParameter);
-            logger.LogTrace($"Parameter {userGroupIdParameter.ParameterName} of type {userGroupIdParameter.SqlDbType} has value {userGroupIdParameter.Value}");
+            SqlParameter communityIdParameter = new SqlParameter("@communityId", SqlDbType.BigInt) { Value = communityId };
+            command.Parameters.Add(communityIdParameter);
+            logger.LogTrace($"Parameter {communityIdParameter.ParameterName} of type {communityIdParameter.SqlDbType} has value {communityIdParameter.Value}");
 
             await conn.OpenAsync(cancellationToken);
 
@@ -320,14 +334,15 @@ namespace BrickAtHeart.Communities.Data
             }
             catch (Exception e)
             {
-                logger.LogError(e, "Error in RetrieveRoleByRoleIdAsync");
+                logger.LogError(e, "Error in RetrieveRolesByCommunityIdAsync");
                 IList<IRoleEntity> result = new List<IRoleEntity>();
 
                 return result;
             }
         }
 
-        public async Task UpdateRoleAsync(IRoleEntity roleEntity, CancellationToken cancellationToken)
+        public async Task UpdateRoleAsync(IRoleEntity roleEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateRoleAsync");
 
@@ -354,7 +369,7 @@ namespace BrickAtHeart.Communities.Data
             command.Parameters.Add(communityIdParameter);
             logger.LogTrace($"Parameter {communityIdParameter.ParameterName} of type {communityIdParameter.SqlDbType} has value {communityIdParameter.Value}");
 
-            SqlParameter isDefaultParameter = new SqlParameter("@isDefault", SqlDbType.Bit) { Value = roleEntity.IsDefault };
+            SqlParameter isDefaultParameter = new SqlParameter("@isDefault", SqlDbType.Bit) { Value = roleEntity.IsCommunityDefault };
             command.Parameters.Add(isDefaultParameter);
             logger.LogTrace($"Parameter {isDefaultParameter.ParameterName} of type {isDefaultParameter.SqlDbType} has value {isDefaultParameter.Value}");
 
@@ -372,7 +387,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task UpdateRoleRightAsync(IRightEntity rightEntity, CancellationToken cancellationToken)
+        public async Task UpdateRoleRightAsync(IRightEntity rightEntity,
+                                               CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateRoleRightAsync");
 
@@ -405,14 +421,15 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        private async Task<List<IMembershipRoleEntity>> LoadMembershipRoleEntities(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<List<IMembershipRoleEntity>> LoadMembershipRoleEntities(SqlDataReader reader,
+                                                                                   CancellationToken cancellationToken = new ())
         {
             List<IMembershipRoleEntity> result = new List<IMembershipRoleEntity>();
 
             while (await reader.ReadAsync(cancellationToken))
             {
                 result.Add(
-                    new MembershipRoleEntity(reader.GetString("DisplayName"), reader.GetString("GivenName"), reader.GetString("SurName"))
+                    new MembershipRoleEntity
                     {
                         Id = reader.GetInt64("Id"),
                         MembershipId = reader.GetInt64("MembershipId"),
@@ -424,7 +441,8 @@ namespace BrickAtHeart.Communities.Data
             return result;
         }
 
-        private async Task<List<IRightEntity>> LoadRightEntities(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<List<IRightEntity>> LoadRightEntities(SqlDataReader reader,
+                                                                 CancellationToken cancellationToken = new ())
         {
             List<IRightEntity> results = new List<IRightEntity>();
 
@@ -442,18 +460,22 @@ namespace BrickAtHeart.Communities.Data
             return results;
         }
 
-        private async Task<List<IRoleEntity>> LoadRoleEntities(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<List<IRoleEntity>> LoadRoleEntities(SqlDataReader reader,
+                                                               CancellationToken cancellationToken = new ())
         {
             List<IRoleEntity> results = new List<IRoleEntity>();
 
             while (await reader.ReadAsync(cancellationToken))
             {
                 results.Add(
-                    new RoleEntity(reader.GetString("RoleName"), reader.GetString("NormalizedRoleName"))
+                    new RoleEntity
                     {
                         Id = reader.GetInt64("Id"),
-                        CommunityId = reader.GetInt64("UserGroupId"),
-                        IsDefault = reader.GetBoolean("IsDefault")
+                        CommunityId = reader.GetInt64("CommunityId"),
+                        IsCommunityDefault = reader.GetBoolean("IsCommunityDefault"),
+                        IsSystemGeneratedOwner = reader.GetBoolean("IsSystemGeneratedOwner"),
+                        Name = reader.GetString("RoleName"),
+                        NormalizedName = reader.GetString("NormalizedRoleName")
                     }
                 );
             }
@@ -461,15 +483,18 @@ namespace BrickAtHeart.Communities.Data
             return results;
         }
 
-        private async Task<IRoleEntity> LoadRoleEntity(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<IRoleEntity> LoadRoleEntity(SqlDataReader reader,
+                                                       CancellationToken cancellationToken = new ())
         {
             await reader.ReadAsync(cancellationToken);
 
-            return new RoleEntity(reader.GetString("RoleName"), reader.GetString("NormalizedRoleName"))
-            {
+            return new RoleEntity            {
                 Id = reader.GetInt64("Id"),
-                CommunityId = reader.GetInt64("UserGroupId"),
-                IsDefault = reader.GetBoolean("IsDefault")
+                CommunityId = reader.GetInt64("CommunityId"),
+                IsCommunityDefault = reader.GetBoolean("IsCommunityDefault"),
+                IsSystemGeneratedOwner = reader.GetBoolean("IsSystemGeneratedOwner"),
+                Name = reader.GetString("RoleName"),
+                NormalizedName = reader.GetString("NormalizedRoleName")
             };
         }
     }

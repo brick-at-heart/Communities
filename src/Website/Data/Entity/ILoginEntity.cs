@@ -2,7 +2,7 @@
 {
     public interface ILoginEntity
     {
-        string? ProviderDisplayName { get; set; }
+        string ProviderDisplayName { get; set; }
 
         string ProviderId { get; set; }
 

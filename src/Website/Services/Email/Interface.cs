@@ -29,7 +29,11 @@ namespace BrickAtHeart.Communities.Services.Email
         ///  True, if the message sent successfully;
         ///  False, if there was an error
         /// </returns>
-        Task<bool> SendSingleEmailAsync(IEmailAddress sender, IEmailAddress recipient, string subject, string htmlMessage, string plainTextMessage);
+        Task<bool> SendSingleEmailAsync(IEmailAddress sender,
+                                        IEmailAddress recipient,
+                                        string subject,
+                                        string htmlMessage,
+                                        string plainTextMessage);
 
         /// <summary>
         ///  Sends a single email to a single recipient based on a template
@@ -52,6 +56,9 @@ namespace BrickAtHeart.Communities.Services.Email
         ///  True, if the message sent successfully;
         ///  False, if there was an error
         /// </returns>
-        Task<bool> SendSingleEmailWithTemplateAsync(IEmailAddress sender, IEmailAddress recipient, string templateId, object dynamicData);
+        Task<bool> SendSingleEmailWithTemplateAsync(IEmailAddress sender,
+                                                    IEmailAddress recipient,
+                                                    string templateId,
+                                                    object dynamicData);
     }
 }

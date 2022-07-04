@@ -62,7 +62,7 @@ namespace BrickAtHeart.Communities
 
             services.AddScoped<IUserDataClient, SqlServerDataClient>();
 
-            services.AddIdentity<User,Role>()
+            services.AddIdentity<User, Role>()
                 .AddUserStore<UserStore>()
                 .AddRoleStore<RoleStore>()
                 .AddDefaultTokenProviders();
@@ -70,6 +70,7 @@ namespace BrickAtHeart.Communities
             services.Configure<IdentityOptions>( options =>
             {
                 options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@ ";
                 options.SignIn.RequireConfirmedAccount = true;
             });
 
@@ -99,13 +100,11 @@ namespace BrickAtHeart.Communities
             services.AddScoped<ICommunityDataClient, SqlServerDataClient>();
             services.AddScoped<IMembershipDataClient, SqlServerDataClient>();
             services.AddScoped<IRoleDataClient, SqlServerDataClient>();
-            services.AddScoped<ICatalogDataClient, SqlServerDataClient>();
 
             services.AddScoped<CommunityStore>();
             services.AddScoped<MembershipStore>();
             services.AddScoped<RoleStore>();
             services.AddScoped<UserStore>();
-            services.AddScoped<CatalogStore>();
 
             services.AddScoped<IAuthorizationHandler, RequiredRightHandler>();
             services.AddScoped<IAuthorizationHandler, RequireAnyRightHandler>();
@@ -158,14 +157,22 @@ namespace BrickAtHeart.Communities
                         });
                         break;
 
-                    //case "twitter":
-                    //    builder.AddTwitter("Twitter", identityProvider.DisplayName, options =>
-                    //    {
-                    //        options.ConsumerKey = identityProvider.ClientId;
-                    //        options.ConsumerSecret = identityProvider.ClientSecret;
-                    //        options.RetrieveUserDetails = true;
-                    //    });
-                    //    break;
+                    case "twitter":
+
+                        if (string.IsNullOrWhiteSpace(identityProvider.DisplayName) ||
+                            string.IsNullOrWhiteSpace(identityProvider.ClientId) ||
+                            string.IsNullOrWhiteSpace(identityProvider.ClientSecret))
+                        {
+                            break;
+                        }
+
+                        builder.AddTwitter("Twitter", identityProvider.DisplayName, options =>
+                        {
+                            options.ConsumerKey = identityProvider.ClientId;
+                            options.ConsumerSecret = identityProvider.ClientSecret;
+                            options.RetrieveUserDetails = true;
+                        });
+                        break;
 
                     case "google":
 

@@ -1,0 +1,38 @@
+﻿@page
+
+@using BrickAtHeart.Communities.Areas.Community.PageModels
+
+@model BrickAtHeart.Communities.Areas.Community.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Communities";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form name="manage-communities" method="post">
+    <div class="container">
+        <h2>Membership(s)</h2>
+        @foreach(CommunityDisplayPageModel community in Model.Communities.Where(c => c.MembershipId > 0))
+        {
+            <div class="row mb-3">
+                <div class="col">@community.DisplayName</div>
+                <div class="col text-right">
+                    <button type="submit" class="btn btn-dark" asp-page-handler="Leave" asp-route-membershipId="@community.MembershipId">Leave</button>
+                </div>
+            </div>   
+        }
+        <h2>Available</h2>
+        @foreach(CommunityDisplayPageModel community in Model.Communities.Where(c => c.MembershipId < 0))
+        {
+            <div class="row mb-3">
+                <div class="col">@community.DisplayName</div>
+                <div class="col text-right">
+                    <button type="submit" class="btn btn-dark" asp-page-handler="Join" asp-route-communityId="@community.Id">Join</button>
+                </div>
+            </div>         }
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,53 +1,56 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BrickAtHeart.Communities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 {
-    public class ConfirmEmailChangeModel : PageModel
+    public class ConfirmEmailChangeModel : CommunityBasePageModel
     {
-        public ConfirmEmailChangeModel(UserManager<Models.User> userManager, SignInManager<Models.User> signInManager)
+        public ConfirmEmailChangeModel(UserStore userStore,
+                                       MembershipStore membershipStore,
+                                       CommunityStore communityStore,
+                                       UserManager<Models.User> userManager,
+                                       SignInManager<Models.User> signInManager,
+                                       ILogger<ConfirmEmailChangeModel> logger) :
+            base(userStore,
+                 membershipStore,
+                 communityStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
-        [TempData]
-        public string? StatusMessage { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(string userId, string email, string code)
+        public async Task<IActionResult> OnGetAsync(string userId,
+                                                    string email,
+                                                    string code)
         {
             if (userId == null || email == null || code == null)
             {
-                return RedirectToPage("/Index");
-            }
-
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{userId}'.");
-            }
-
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ChangeEmailAsync(user, email, code);
-
-            if (!result.Succeeded)
-            {
-                StatusMessage = "Error changing email.";
+                _logger.LogWarning("An email change validation was attempted which was missing either the userId, email or code.");
+                StatusMessage = "There was an error with your request.";
                 return Page();
             }
 
-            // In our UI email and user name are one and the same, so when we update the email
-            // we need to update the user name.
-            var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
+            Models.User user = await _userManager.FindByIdAsync(userId);
 
-            if (!setUserNameResult.Succeeded)
+            if (user == null)
             {
-                StatusMessage = "Error changing user name.";
+                _logger.LogWarning("An email change validation was attempted but the user was not found.");
+                StatusMessage = "There was an error retrieving your account.";
+                return Page();
+            }
+
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            IdentityResult result = await _userManager.ChangeEmailAsync(user, email, code);
+
+            if (!result.Succeeded)
+            {
+                StatusMessage = "There was an error changing your email.";
                 return Page();
             }
 
@@ -58,5 +61,6 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
 
         private readonly UserManager<Models.User> _userManager;
         private readonly SignInManager<Models.User> _signInManager;
+        ILogger<ConfirmEmailChangeModel> _logger;
     }
 }

@@ -1,0 +1,56 @@
+﻿@page
+
+@using BrickAtHeart.Communities.Areas.Administration.PageModels;
+
+@model BrickAtHeart.Communities.Areas.Administration.Pages.MembersModel
+
+@{
+    ViewData["Title"] = "Members";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="manage-members" method="post">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            Name
+        </div>
+        <div class="col-md-2">
+            Primary
+        </div>
+        <div class="col-md-2">
+            Active
+        </div>
+        <div class="col-md-4">
+            Actions
+        </div>
+    </div>
+    @foreach (MembershipDetailsPageModel details in Model.MembershipDetails)
+    {
+        <div class="row mb-3">
+            <div class="col-md-4">
+                @details.FullName
+            </div>
+            <div class="col-md-2">
+                @details.IsPrimary
+            </div>
+            <div class="col-md-2">
+                @details.IsActive
+            </div>
+            <div class="col-md-4">
+                @if (details.IsActive)
+                {
+                    <button type="submit" class="btn btn-dark" asp-page-handler="ToggleActivation" asp-route-membershipId="@details.Id">Deactivate</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-dark" asp-page-handler="ToggleActivation" asp-route-membershipId="@details.Id">Activate</button>
+                }
+                <button id="expel-button" type="submit" class="btn btn-dark" asp-page-handler="Expel" asp-route-membershipId="@details.Id" disabled>Expel</button>
+            </div>
+        </div>
+    }
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

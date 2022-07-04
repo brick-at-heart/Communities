@@ -11,7 +11,8 @@ namespace BrickAtHeart.Communities.Data
 {
     public partial class SqlServerDataClient : IUserDataClient
     {
-        public async Task CreateLoginAsync(ILoginEntity loginEntity, CancellationToken cancellationToken = new())
+        public async Task CreateLoginAsync(ILoginEntity loginEntity,
+                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateLoginAsync");
 
@@ -51,7 +52,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task CreateUserAsync(IUserEntity userEntity, CancellationToken cancellationToken = new())
+        public async Task CreateUserAsync(IUserEntity userEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateUserAsync");
 
@@ -144,7 +146,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteLoginAsync(ILoginEntity loginEntity, CancellationToken cancellationToken = new())
+        public async Task DeleteLoginAsync(ILoginEntity loginEntity,
+                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteLoginAsync");
 
@@ -180,7 +183,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteUserAsync(IUserEntity userEntity, CancellationToken cancellationToken = new())
+        public async Task DeleteUserAsync(IUserEntity userEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteUserAsync");
 
@@ -209,7 +213,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<ILoginEntity>> RetrieveLoginsByUserIdAsync(long userId, CancellationToken cancellationToken = new())
+        public async Task<IList<ILoginEntity>> RetrieveLoginsByUserIdAsync(long userId,
+                                                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveLoginsByUserIdAsync");
 
@@ -238,8 +243,10 @@ namespace BrickAtHeart.Communities.Data
                     string providerDisplayName = reader.GetString("ProviderDisplayName");
                     string providerKey = reader.GetString("ProviderKey");
 
-                    logins.Add(new LoginEntity(loginProvider, providerKey)
+                    logins.Add(new LoginEntity
                     {
+                        ProviderId = loginProvider,
+                        ProviderKey = providerKey,
                         ProviderDisplayName = providerDisplayName,
                         UserId = userId
                     });
@@ -255,7 +262,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IUserEntity> RetrieveUserByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = new())
+        public async Task<IUserEntity> RetrieveUserByEmailAsync(string normalizedEmail,
+                                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveUserByEmailAsync");
 
@@ -288,7 +296,9 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IUserEntity> RetrieveUserByLoginAsync(string providerId, string providerKey, CancellationToken cancellationToken = new())
+        public async Task<IUserEntity> RetrieveUserByLoginAsync(string providerId,
+                                                                string providerKey,
+                                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveUserByLoginAsync");
 
@@ -314,8 +324,6 @@ namespace BrickAtHeart.Communities.Data
                 SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
                 IUserEntity userEntity = await LoadUserEntity(reader, cancellationToken);
 
-                logger.LogInformation("Successfully Leaving RetrieveUserByLoginAsync");
-
                 return userEntity;
             }
             catch (Exception e)
@@ -325,7 +333,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IUserEntity> RetrieveUserByUserIdAsync(long userId, CancellationToken cancellationToken)
+        public async Task<IUserEntity> RetrieveUserByUserIdAsync(long userId,
+                                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveUserByLoginAsync");
 
@@ -358,7 +367,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IUserEntity> RetrieveUserByUserNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<IUserEntity> RetrieveUserByUserNameAsync(string normalizedUserName,
+                                                                   CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveUserByUserNameAsync");
 
@@ -373,7 +383,41 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task UpdateUserAsync(IUserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<IList<IUserEntity>> RetrieveUsersByCommunityIdAsync(long communityId,
+                                                                              CancellationToken cancellationToken = new ())
+        {
+            logger.LogInformation("Entered RetrieveUsersByCommunityIdAsync");
+
+            try
+            {
+                await using SqlConnection conn = new SqlConnection(connectionString);
+                await using SqlCommand command = new SqlCommand("[dbo].[RetrieveUsersByCommunityId]", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                logger.LogTrace($"Preparing to call stored procedure: {command.CommandText}");
+
+                SqlParameter communityIdParameter = new SqlParameter("@communityId", SqlDbType.BigInt) { Value = communityId };
+                command.Parameters.Add(communityIdParameter);
+                logger.LogTrace($"Parameter {communityIdParameter.ParameterName} of type {communityIdParameter.SqlDbType} has value {communityIdParameter.Value}");
+
+                await conn.OpenAsync(cancellationToken);
+
+                SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+                IList<IUserEntity> entities = await LoadUserEntities(reader, cancellationToken);
+
+                logger.LogInformation("Successfully Leaving RetrieveUsersByCommunityIdAsync");
+                return entities;
+            }
+            catch (Exception e)
+            {
+                logger.LogWarning(e, "Error in RetrieveUsersByCommunityIdAsync");
+                throw;
+            }
+        }
+
+        public async Task UpdateUserAsync(IUserEntity userEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateUserAsync");
 
@@ -471,16 +515,61 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        private async Task<IUserEntity> LoadUserEntity(SqlDataReader reader, CancellationToken cancellationToken = new CancellationToken())
+        private async Task<IList<IUserEntity>> LoadUserEntities(SqlDataReader reader,
+                                                                CancellationToken cancellationToken = new ())
         {
+            IList<IUserEntity> result = new List<IUserEntity>();
+            
+            if (!reader.HasRows)
+            {
+                return result;
+            }
+
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                result.Add(new UserEntity()
+                {
+                    Id = reader.GetInt64("Id"),
+                    IsActive = reader.GetBoolean("IsActive"),
+                    IsApproved = reader.GetBoolean("IsApproved"),
+                    DisplayName = reader.GetString("DisplayName"),
+                    Email = reader.GetString("Email"),
+                    NormalizedEmail = reader.GetString("NormalizedEmail"),
+                    EmailConfirmed = reader.GetBoolean("EmailConfirmed"),
+                    GivenName = reader.GetString("GivenName"),
+                    SurName = reader.GetString("SurName"),
+                    PhoneNumber = reader.GetString("PhoneNumber"),
+                    PhoneNumberConfirmed = reader.GetBoolean("PhoneNumberConfirmed"),
+                    StreetAddressLine1 = reader.GetString("StreetAddressLine1"),
+                    StreetAddressLine2 = reader.GetString("StreetAddressLine2"),
+                    City = reader.GetString("City"),
+                    Region = reader.GetString("Region"),
+                    Country = reader.GetString("Country"),
+                    PostalCode = reader.GetString("PostalCode"),
+                    DateOfBirth = reader.GetDateTime("DateOfBirth")
+                });
+            }
+
+            return result;
+        }
+
+        private async Task<IUserEntity> LoadUserEntity(SqlDataReader reader,
+                                                       CancellationToken cancellationToken = new ())
+        {
+            if (!reader.HasRows)
+            {
+                return null;
+            }
+
             await reader.ReadAsync(cancellationToken);
             
-            return new UserEntity(reader.GetString("DisplayName"))
+            return new UserEntity()
             {
                 Id = reader.GetInt64("Id"),
                 IsActive = reader.GetBoolean("IsActive"),
                 IsApproved = reader.GetBoolean("IsApproved"),
                 Email = reader.GetString("Email"),
+                DisplayName = reader.GetString("DisplayName"),
                 NormalizedEmail = reader.GetString("NormalizedEmail"),
                 EmailConfirmed = reader.GetBoolean("EmailConfirmed"),
                 GivenName = reader.GetString("GivenName"),
