@@ -100,13 +100,11 @@ namespace BrickAtHeart.Communities
             services.AddScoped<ICommunityDataClient, SqlServerDataClient>();
             services.AddScoped<IMembershipDataClient, SqlServerDataClient>();
             services.AddScoped<IRoleDataClient, SqlServerDataClient>();
-            services.AddScoped<ICatalogDataClient, SqlServerDataClient>();
 
             services.AddScoped<CommunityStore>();
             services.AddScoped<MembershipStore>();
             services.AddScoped<RoleStore>();
             services.AddScoped<UserStore>();
-            services.AddScoped<CatalogStore>();
 
             services.AddScoped<IAuthorizationHandler, RequiredRightHandler>();
             services.AddScoped<IAuthorizationHandler, RequireAnyRightHandler>();

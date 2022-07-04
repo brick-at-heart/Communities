@@ -8,13 +8,13 @@ namespace BrickAtHeart.Communities.Models.Authorization
 {
     public class RequiredRightHandler : AuthorizationHandler<RequiredRightRequirement>
     {
-        public RequiredRightHandler( RoleStore roleStore )
+        public RequiredRightHandler(RoleStore roleStore)
         {
             _roleStore = roleStore;
         }
 
-        protected async override Task HandleRequirementAsync( AuthorizationHandlerContext context,
-                                                              RequiredRightRequirement requirement )
+        protected async override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+                                                             RequiredRightRequirement requirement)
         {
             IList<RoleRight> rightStates = await _roleStore.RetrieveRightByRightIdUserIdAsync((long)requirement.RequiredRight, context.User.GetUserId());
 

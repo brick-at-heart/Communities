@@ -23,7 +23,8 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
             this.logger = logger;
         }
 
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public async Task<IActionResult> OnGetAsync(string userId,
+                                                    string code)
         {
             if (userId == null || code == null)
             {

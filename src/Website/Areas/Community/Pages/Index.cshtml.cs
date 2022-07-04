@@ -13,7 +13,7 @@ namespace BrickAtHeart.Communities.Areas.Community.Pages
     public class IndexModel : CommunityBasePageModel
     {
         [BindProperty]
-        public List<CommunityDisplayPageModel> Communities { get; set;}
+        public List<CommunityDisplayPageModel> Communities { get; set; }
 
         public IndexModel(UserStore userStore,
                           MembershipStore membershipStore,

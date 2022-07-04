@@ -8,13 +8,13 @@ namespace BrickAtHeart.Communities.Models.Authorization
 {
     public class RequireAnyRightHandler: AuthorizationHandler<RequireAnyRightRequirement>
     {
-        public RequireAnyRightHandler( RoleStore roleStore )
+        public RequireAnyRightHandler(RoleStore roleStore)
         {
             _roleStore = roleStore;
         }
 
-        protected async override Task HandleRequirementAsync( AuthorizationHandlerContext context,
-                                                              RequireAnyRightRequirement requirement )
+        protected async override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+                                                             RequireAnyRightRequirement requirement)
         {
             foreach (Right right in requirement.RequiredRights)
             {

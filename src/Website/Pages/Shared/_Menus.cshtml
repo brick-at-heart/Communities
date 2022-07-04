@@ -1,5 +1,10 @@
 ﻿@using BrickAtHeart.Communities.Models
+@using BrickAtHeart.Communities.Models.Attributes
+@using BrickAtHeart.Communities.Models.Authorization
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
+
+@inject IAuthorizationService AuthorizationService
 @inject SignInManager<User> SignInManager
 
 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -15,16 +20,28 @@
                 <li><a class="dropdown-item" asp-area="Community" asp-page="/LugBulk">LUGBULK</a></li>
             </ul>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administration</a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" asp-area="Administration" asp-page="/Profile">Community Profile</a></li>
-                <li><a class="dropdown-item" asp-area="Administration" asp-page="/Members">Members</a></li>
-                <li><a class="dropdown-item" asp-area="Administration" asp-page="/Roles/Index">Roles</a></li>
-                <li><a class="dropdown-item" asp-area="Administration" asp-page="/LugBulk">LUGBULK</a></li>
-            </ul>
-        </li>
+            @if((await AuthorizationService.AuthorizeAsync(User, "MaintainUserGroup")).Succeeded)
+            {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administration</a>
+                <ul class="dropdown-menu">
+                    @if((await AuthorizationService.AuthorizeAsync(User, Right.MaintainUserGroupProfile.GetPolicyName())).Succeeded)
+                    {
+                    <li><a class="dropdown-item" asp-area="Administration" asp-page="/Profile">Community Profile</a></li>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "MaintainRoles")).Succeeded)
+                    {
+                    <li><a class="dropdown-item" asp-area="Administration" asp-page="/Members">Members</a></li>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, Right.MaintainMemberships.GetPolicyName())).Succeeded)
+                    {
+                    <li><a class="dropdown-item" asp-area="Administration" asp-page="/Roles/Index">Roles</a></li>
+                    }
+                    <li><a class="dropdown-item" asp-area="Administration" asp-page="/LugBulk">LUGBULK</a></li>
+                </ul>
+            </li>
+            }
         }
     </ul>
-    <partial name="_LoginPartial" />
+    <partial name="_Login" />
 </div>

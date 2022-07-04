@@ -22,7 +22,9 @@ namespace BrickAtHeart.Communities.Models
             this.logger = logger;
         }
 
-        public Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken = new())
+        public Task AddClaimsAsync(User user,
+                                   IEnumerable<Claim> claims,
+                                   CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered AddClaimsAsync");
 
@@ -35,12 +37,16 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public async Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken = new())
+        public async Task AddLoginAsync(User user,
+                                        UserLoginInfo login,
+                                        CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered AddLoginAsync");
 
-            ILoginEntity loginEntity = new LoginEntity(login.LoginProvider, login.ProviderKey)
+            ILoginEntity loginEntity = new LoginEntity
             {
+                ProviderId = login.LoginProvider,
+                ProviderKey = login.ProviderKey,
                 ProviderDisplayName = login.ProviderDisplayName,
                 UserId = user.Id
             };
@@ -50,7 +56,8 @@ namespace BrickAtHeart.Communities.Models
             logger.LogInformation("Successfully Leaving AddLoginAsync");
         }
 
-        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> CreateAsync(User user,
+                                                      CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateAsync");
 
@@ -80,7 +87,8 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> DeleteAsync(User user,
+                                                      CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteAsync");
 
@@ -113,7 +121,8 @@ namespace BrickAtHeart.Communities.Models
             logger.LogInformation("Successfully Leaving Dispose");
         }
 
-        public async Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = new())
+        public async Task<User> FindByEmailAsync(string normalizedEmail,
+                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered FindByEmailAsync");
 
@@ -122,7 +131,8 @@ namespace BrickAtHeart.Communities.Models
             return LoadUserModel(entity);
         }
 
-        public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken = new())
+        public async Task<User> FindByIdAsync(string userId,
+                                              CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered FindByIdAsync");
 
@@ -131,7 +141,9 @@ namespace BrickAtHeart.Communities.Models
             return LoadUserModel(entity);
         }
 
-        public async Task<User> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken = new())
+        public async Task<User> FindByLoginAsync(string loginProvider,
+                                                 string providerKey,
+                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered FindByLoginAsync");
 
@@ -140,7 +152,8 @@ namespace BrickAtHeart.Communities.Models
             return LoadUserModel(entity);
         }
 
-        public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = new())
+        public async Task<User> FindByNameAsync(string normalizedUserName,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered FindByNameAsync");
 
@@ -149,7 +162,8 @@ namespace BrickAtHeart.Communities.Models
             return LoadUserModel(entity);
         }
 
-        public async Task<IList<User>> FindByCommunityId(long communityId, CancellationToken cancellationToken = new ())
+        public async Task<IList<User>> FindByCommunityId(long communityId,
+                                                         CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered FindByCommuniyId");
 
@@ -160,7 +174,8 @@ namespace BrickAtHeart.Communities.Models
             return result;
         }
 
-        public Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken = new())
+        public Task<IList<Claim>> GetClaimsAsync(User user,
+                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetClaimsAsync");
 
@@ -168,7 +183,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.Claims);
         }
 
-        public Task<string> GetEmailAsync(User user, CancellationToken cancellationToken = new())
+        public Task<string> GetEmailAsync(User user,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetEmailAsync");
 
@@ -176,7 +192,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.Email);
         }
 
-        public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken = new())
+        public Task<bool> GetEmailConfirmedAsync(User user,
+                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetEmailConfirmedAsync");
 
@@ -184,7 +201,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.EmailConfirmed);
         }
 
-        public async Task<IList<UserLoginInfo>> GetLoginsAsync(User user, CancellationToken cancellationToken = new())
+        public async Task<IList<UserLoginInfo>> GetLoginsAsync(User user,
+                                                               CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetLoginsAsync");
 
@@ -207,7 +225,8 @@ namespace BrickAtHeart.Communities.Models
             return new List<UserLoginInfo>();
         }
 
-        public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken = new())
+        public Task<string> GetNormalizedEmailAsync(User user,
+                                                    CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetNormalizedEmailAsync");
 
@@ -215,7 +234,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(normalizer.NormalizeEmail(user.Email));
         }
 
-        public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = new())
+        public Task<string> GetNormalizedUserNameAsync(User user,
+                                                       CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetNormalizedUserNameAsync");
 
@@ -223,7 +243,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.NormalizedUserName);
         }
 
-        public Task<string> GetPhoneNumberAsync(User user, CancellationToken cancellationToken = new())
+        public Task<string> GetPhoneNumberAsync(User user,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetPhoneNumberAsync");
 
@@ -231,7 +252,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.PhoneNumber);
         }
 
-        public Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancellationToken = new())
+        public Task<bool> GetPhoneNumberConfirmedAsync(User user,
+                                                       CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetPhoneNumberConfirmedAsync");
 
@@ -239,7 +261,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.PhoneNumberConfirmed);
         }
 
-        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = new())
+        public Task<string> GetPasswordHashAsync(User user,
+                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetPasswordHashAsync");
 
@@ -247,7 +270,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(string.Empty);
         }
 
-        public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = new())
+        public Task<string> GetUserIdAsync(User user,
+                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetUserIdAsync");
 
@@ -255,7 +279,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.Id.ToString());
         }
 
-        public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = new())
+        public Task<string> GetUserNameAsync(User user,
+                                             CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetUserNameAsync");
 
@@ -263,7 +288,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(user.DisplayName);
         }
 
-        public Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken = new())
+        public Task<IList<User>> GetUsersForClaimAsync(Claim claim,
+                                                       CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered GetUsersForClaimAsync");
 
@@ -273,7 +299,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(result);
         }
 
-        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = new())
+        public Task<bool> HasPasswordAsync(User user,
+                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered HasPasswordAsync");
 
@@ -281,7 +308,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.FromResult(false);
         }
 
-        public Task RemoveClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken = new())
+        public Task RemoveClaimsAsync(User user,
+                                      IEnumerable<Claim> claims,
+                                      CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RemoveClaimsAsync");
 
@@ -294,19 +323,27 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task RemoveLoginAsync(User user, string loginProvider, string providerKey, CancellationToken cancellationToken = new())
+        public Task RemoveLoginAsync(User user,
+                                     string loginProvider,
+                                     string providerKey,
+                                     CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RemoveLoginAsync");
 
-            ILoginEntity loginEntity = new LoginEntity(loginProvider, providerKey)
+            ILoginEntity loginEntity = new LoginEntity
             {
+                ProviderId = loginProvider,
+                ProviderKey = providerKey,
                 UserId = user.Id
             };
 
             return userDataClient.DeleteLoginAsync(loginEntity, cancellationToken);
         }
 
-        public Task ReplaceClaimAsync(User user, Claim claim, Claim newClaim, CancellationToken cancellationToken = new())
+        public Task ReplaceClaimAsync(User user,
+                                      Claim claim,
+                                      Claim newClaim,
+                                      CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered ReplaceClaimAsync");
 
@@ -317,7 +354,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken = new())
+        public Task SetEmailAsync(User user,
+                                  string email,
+                                  CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetEmailAsync");
 
@@ -327,7 +366,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = new())
+        public Task SetEmailConfirmedAsync(User user,
+                                           bool confirmed,
+                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetEmailConfirmedAsync");
 
@@ -337,7 +378,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = new())
+        public Task SetNormalizedEmailAsync(User user,
+                                            string normalizedEmail,
+                                            CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetNormalizedEmailAsync");
 
@@ -347,7 +390,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetNormalizedUserNameAsync(User user, string normalizedUserName, CancellationToken cancellationToken = new())
+        public Task SetNormalizedUserNameAsync(User user,
+                                               string normalizedUserName,
+                                               CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetNormalizedUserNameAsync");
 
@@ -357,7 +402,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = new())
+        public Task SetPasswordHashAsync(User user,
+                                         string passwordHash,
+                                         CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetPasswordHashAsync");
 
@@ -365,7 +412,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancellationToken = new())
+        public Task SetPhoneNumberAsync(User user,
+                                        string phoneNumber,
+                                        CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetPhoneNumberAsync");
 
@@ -375,7 +424,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = new())
+        public Task SetPhoneNumberConfirmedAsync(User user,
+                                                 bool confirmed,
+                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetPhoneNumberConfirmedAsync");
 
@@ -385,7 +436,9 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken = new())
+        public Task SetUserNameAsync(User user,
+                                     string userName,
+                                     CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered SetUserNameAsync");
 
@@ -395,7 +448,8 @@ namespace BrickAtHeart.Communities.Models
             return Task.CompletedTask;
         }
 
-        public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> UpdateAsync(User user,
+                                                      CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateAsync");
 

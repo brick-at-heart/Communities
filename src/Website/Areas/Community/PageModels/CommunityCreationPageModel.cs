@@ -17,7 +17,7 @@ namespace BrickAtHeart.Communities.Areas.Community.PageModels
         public string ShortName { get; set; }
 
         [DisplayName("Slack Workspace")]
-        public string SlackWorkspaceId { get; set;}
+        public string SlackWorkspaceId { get; set; }
 
         [Required]
         [DisplayName("Join Type")]

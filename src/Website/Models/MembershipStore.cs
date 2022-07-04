@@ -18,7 +18,8 @@ namespace BrickAtHeart.Communities.Models
             this.logger = logger;
         }
 
-        public async Task CreateMembershipAsync(Membership membership, CancellationToken cancellationToken = new())
+        public async Task CreateMembershipAsync(Membership membership,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateMembershipAsync");
 
@@ -38,7 +39,8 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task DeleteMembershipAsync(long membershipId, CancellationToken cancellationToken = new())
+        public async Task DeleteMembershipAsync(long membershipId,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteMembershipAsync");
 
@@ -54,7 +56,8 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task<Membership> RetrieveMembershipByMembershipIdAsync(long membershipId, CancellationToken cancellationToken = new())
+        public async Task<Membership> RetrieveMembershipByMembershipIdAsync(long membershipId,
+                                                                            CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipByMembershipIdAsync");
 
@@ -74,7 +77,8 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task<IList<Membership>> RetrieveMembershipsByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new())
+        public async Task<IList<Membership>> RetrieveMembershipsByCommunityIdAsync(long communityId,
+                                                                                   CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipsByUserGroupIdAsync");
 
@@ -94,7 +98,8 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task<IList<Membership>> RetrieveMembershipsByUserIdAsync(long userId, CancellationToken cancellationToken = new())
+        public async Task<IList<Membership>> RetrieveMembershipsByUserIdAsync(long userId,
+                                                                              CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipsByUserIdAsync");
 
@@ -114,7 +119,8 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task UpdateMembershipAsync(Membership membership, CancellationToken cancellationToken = new())
+        public async Task UpdateMembershipAsync(Membership membership,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateMembershipAsync");
 

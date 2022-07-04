@@ -11,7 +11,8 @@ namespace BrickAtHeart.Communities.Data
 {
     public partial class SqlServerDataClient : IMembershipDataClient
     {
-        public async Task CreateMembershipAsync(IMembershipEntity membershipEntity, CancellationToken cancellationToken = new ())
+        public async Task CreateMembershipAsync(IMembershipEntity membershipEntity,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateMembershipAsync");
 
@@ -60,7 +61,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteMembershipAsync(long membershipId, CancellationToken cancellationToken = new ())
+        public async Task DeleteMembershipAsync(long membershipId,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteMembershipAsync");
 
@@ -89,7 +91,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IMembershipEntity> RetrieveMembershipByMembershipIdAsync(long membershipId, CancellationToken cancellationToken = new())
+        public async Task<IMembershipEntity> RetrieveMembershipByMembershipIdAsync(long membershipId,
+                                                                                   CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipByMembershipIdAsync");
 
@@ -111,6 +114,7 @@ namespace BrickAtHeart.Communities.Data
                 SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
                 IMembershipEntity result = await LoadMembershipEntity(reader, cancellationToken);
 
+                logger.LogInformation("Successfully Leaving RetrieveMembershipByMembershipIdAsync");
                 return result;
             }
             catch (Exception e)
@@ -121,7 +125,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IMembershipEntity>> RetrieveMembershipsByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new())
+        public async Task<IList<IMembershipEntity>> RetrieveMembershipsByCommunityIdAsync(long communityId,
+                                                                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipsByCommunityIdAsync");
 
@@ -154,7 +159,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IMembershipEntity>> RetrieveMembershipsByUserIdAsync(long userId, CancellationToken cancellationToken = new())
+        public async Task<IList<IMembershipEntity>> RetrieveMembershipsByUserIdAsync(long userId,
+                                                                                     CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipsByUserIdAsync");
 
@@ -187,7 +193,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task UpdateMembershipAsync(IMembershipEntity membershipEntity, CancellationToken cancellationToken = new())
+        public async Task UpdateMembershipAsync(IMembershipEntity membershipEntity,
+                                                CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateMembershipAsync");
 
@@ -235,7 +242,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        private async Task<List<IMembershipEntity>> LoadMembershipEntities(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<List<IMembershipEntity>> LoadMembershipEntities(SqlDataReader reader,
+                                                                           CancellationToken cancellationToken = new ())
         {
             List<IMembershipEntity> results = new List<IMembershipEntity>();
 
@@ -260,7 +268,8 @@ namespace BrickAtHeart.Communities.Data
             return results;
         }
 
-        private async Task<IMembershipEntity> LoadMembershipEntity(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<IMembershipEntity> LoadMembershipEntity(SqlDataReader reader,
+                                                                   CancellationToken cancellationToken = new ())
         {
             IMembershipEntity result = null;
 

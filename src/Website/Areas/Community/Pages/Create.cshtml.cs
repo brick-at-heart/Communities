@@ -11,7 +11,7 @@ namespace BrickAtHeart.Communities.Areas.Community.Pages
     public class CreateModel : CommunityBasePageModel
     {
         [BindProperty]
-        public CommunityCreationPageModel NewCommunity { get; set;}
+        public CommunityCreationPageModel NewCommunity { get; set; }
 
         public CreateModel(UserStore userStore,
                            MembershipStore membershipStore,

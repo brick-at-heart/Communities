@@ -30,7 +30,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Memberships = await Load(User);
+            Memberships = await Load();
 
             return Page();
         }
@@ -53,7 +53,7 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
             return RedirectToPage();
         }
 
-        private async Task<List<MembershipPageModel>> Load(ClaimsPrincipal user)
+        private async Task<List<MembershipPageModel>> Load()
         {
             long userId = long.Parse(userManager.GetUserId(User));
             IList<Membership> memberships = await membershipStore.RetrieveMembershipsByUserIdAsync(userId);

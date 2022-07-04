@@ -65,7 +65,8 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
         /// </param>
         /// <returns>
         /// </returns>
-        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null,
+                                                            string remoteError = null)
         {
             returnUrl ??= Url.Content("~/");
 
@@ -134,7 +135,8 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account
         /// </param>
         /// <returns>
         /// </returns>
-        public IActionResult OnPost(string provider, string returnUrl = "")
+        public IActionResult OnPost(string provider,
+                                    string returnUrl = "")
         {
             string redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             AuthenticationProperties properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);

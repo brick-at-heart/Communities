@@ -2,10 +2,10 @@
 {
     public class CommunityDisplayPageModel
     {
-        public string DisplayName { get; set;}
+        public string DisplayName { get; set; }
 
         public long Id { get; set; }
 
-        public long MembershipId { get; set;} = -1;
+        public long MembershipId { get; set; } = -1;
     }
 }

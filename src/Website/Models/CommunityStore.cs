@@ -19,7 +19,8 @@ namespace BrickAtHeart.Communities.Models
             this.logger = logger;
         }
 
-        public async Task CreateCommunityAsync(Community community, CancellationToken cancellationToken = new ())
+        public async Task CreateCommunityAsync(Community community,
+                                               CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateCommunityAsync");
 
@@ -37,14 +38,16 @@ namespace BrickAtHeart.Communities.Models
             }
         }
 
-        public async Task<Community> RetrieveCommunityByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new())
+        public async Task<Community> RetrieveCommunityByCommunityIdAsync(long communityId,
+                                                                         CancellationToken cancellationToken = new ())
         {
             ICommunityEntity entity = await communityDataClient.RetrieveCommunityByCommunityIdAsync(communityId, cancellationToken);
 
             return LoadModel(entity);
         }
 
-        public async Task<Community> RetrieveCommunityByFullNameAsync(string fullName, CancellationToken cancellationToken = new ())
+        public async Task<Community> RetrieveCommunityByFullNameAsync(string fullName,
+                                                                      CancellationToken cancellationToken = new ())
         {
             fullName = normalizer.NormalizeName(fullName);
 
@@ -53,14 +56,16 @@ namespace BrickAtHeart.Communities.Models
             return LoadModel(entity);
         }
 
-        public async Task<IList<Community>> RetrieveCommunitiesByJoinTypesAsync(byte joinTypes, CancellationToken cancellationToken = new ())
+        public async Task<IList<Community>> RetrieveCommunitiesByJoinTypesAsync(byte joinTypes,
+                                                                                CancellationToken cancellationToken = new ())
         {
             IList<ICommunityEntity> communities =  await communityDataClient.RetrieveCommunitiesByJoinTypeAsync(joinTypes, cancellationToken);
 
             return LoadModels(communities);
         }
 
-        public async Task<Community> RetrieveCommunityByShortNameAsync(string shortName, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<Community> RetrieveCommunityByShortNameAsync(string shortName,
+                                                                       CancellationToken cancellationToken = new ())
         {
             shortName = normalizer.NormalizeName(shortName);
 
@@ -69,14 +74,16 @@ namespace BrickAtHeart.Communities.Models
             return LoadModel(entity);
         }
 
-        public async Task<IList<Community>> RetrieveCommunitiesByUserIdAsync(long userId, CancellationToken cancellationToken = new ())
+        public async Task<IList<Community>> RetrieveCommunitiesByUserIdAsync(long userId,
+                                                                             CancellationToken cancellationToken = new ())
         {
             IList<ICommunityEntity> communities = await communityDataClient.RetrieveCommunitiesByUserIdAsync(userId, cancellationToken);
 
             return LoadModels(communities);
         }
 
-        public async Task UpdateCommunityAsync(Community community, CancellationToken cancellationToken = new ())
+        public async Task UpdateCommunityAsync(Community community,
+                                               CancellationToken cancellationToken = new ())
         {
             await communityDataClient.UpdateCommunityAsync(LoadEntity(community), cancellationToken);
         }

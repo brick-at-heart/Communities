@@ -11,7 +11,8 @@ namespace BrickAtHeart.Communities.Data
 {
     public partial class SqlServerDataClient : ICommunityDataClient
     {
-        public async Task CreateCommunityAsync(ICommunityEntity userGroupEntity, CancellationToken cancellationToken = new ())
+        public async Task CreateCommunityAsync(ICommunityEntity userGroupEntity,
+                                               CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateCommunityAsync");
 
@@ -68,9 +69,10 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteCommunityAsync(ICommunityEntity communityEntity, CancellationToken cancellationToken = new ())
+        public async Task DeleteCommunityAsync(ICommunityEntity communityEntity,
+                                               CancellationToken cancellationToken = new ())
         {
-            logger.LogInformation("Entered DeleteUserGroupAsync");
+            logger.LogInformation("Entered DeleteCommunityAsync");
 
             await using SqlConnection conn = new SqlConnection(connectionString);
             await using SqlCommand command = new SqlCommand("[dbo].[DeleteCommunity]", conn)
@@ -97,7 +99,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<ICommunityEntity> RetrieveCommunityByFullNameAsync(string normalizedFullName, CancellationToken cancellationToken = new ())
+        public async Task<ICommunityEntity> RetrieveCommunityByFullNameAsync(string normalizedFullName,
+                                                                             CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveCommunityByFullNameAsync");
 
@@ -130,7 +133,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<ICommunityEntity> RetrieveCommunityByShortNameAsync(string normalizedShortName, CancellationToken cancellationToken = new ())
+        public async Task<ICommunityEntity> RetrieveCommunityByShortNameAsync(string normalizedShortName,
+                                                                              CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveCommunityByShortNameAsync");
 
@@ -163,18 +167,19 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<ICommunityEntity> RetrieveCommunityByCommunityIdAsync(long userGroupId, CancellationToken cancellationToken = new ())
+        public async Task<ICommunityEntity> RetrieveCommunityByCommunityIdAsync(long communityId,
+                                                                                CancellationToken cancellationToken = new ())
         {
-            logger.LogInformation("Entered RetrieveCommunityByUserGroupIdAsync");
+            logger.LogInformation("Entered RetrieveCommunityByCommunityIdAsync");
 
             await using SqlConnection conn = new SqlConnection(connectionString);
-            await using SqlCommand command = new SqlCommand("[dbo].[RetrieveCommunityByUserGroupId]", conn)
+            await using SqlCommand command = new SqlCommand("[dbo].[RetrieveCommunityByCommunityId]", conn)
             {
                 CommandType = CommandType.StoredProcedure
             };
             logger.LogTrace($"Preparing to call stored procedure: {command.CommandText}");
 
-            SqlParameter idParameter = new SqlParameter("@id", SqlDbType.BigInt) { Value = userGroupId };
+            SqlParameter idParameter = new SqlParameter("@id", SqlDbType.BigInt) { Value = communityId };
             command.Parameters.Add(idParameter);
             logger.LogTrace($"Parameter {idParameter.ParameterName} of type {idParameter.SqlDbType} has value {idParameter.Value}");
 
@@ -185,18 +190,19 @@ namespace BrickAtHeart.Communities.Data
                 SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
                 ICommunityEntity communityEntity = await LoadCommunityEntity(reader, cancellationToken);
 
-                logger.LogInformation("Successfully Leaving RetrieveCommunityByUserGroupIdAsync");
+                logger.LogInformation("Successfully Leaving RetrieveCommunityByCommunityIdAsync");
 
                 return communityEntity;
             }
             catch (Exception e)
             {
-                logger.LogWarning(e, "Error in RetrieveCommunityByUserGroupIdAsync");
+                logger.LogWarning(e, "Error in RetrieveCommunityByCommunityIdAsync");
                 throw;
             }
         }
 
-        public async Task<IList<ICommunityEntity>> RetrieveCommunitiesByJoinTypeAsync(byte joinTypes, CancellationToken cancellationToken = new ())
+        public async Task<IList<ICommunityEntity>> RetrieveCommunitiesByJoinTypeAsync(byte joinTypes,
+                                                                                      CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveCommunitiesByJoinTypeAsync");
 
@@ -229,7 +235,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<ICommunityEntity>> RetrieveCommunitiesByUserIdAsync(long userId, CancellationToken cancellationToken = default)
+        public async Task<IList<ICommunityEntity>> RetrieveCommunitiesByUserIdAsync(long userId,
+                                                                                    CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveCommunitiesByUserIdAsync");
 
@@ -262,7 +269,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task UpdateCommunityAsync(ICommunityEntity communityEntity, CancellationToken cancellationToken = new ())
+        public async Task UpdateCommunityAsync(ICommunityEntity communityEntity,
+                                               CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateCommunityAsync");
 
@@ -316,7 +324,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        private async Task<ICommunityEntity> LoadCommunityEntity(SqlDataReader reader, CancellationToken cancellationToken = new ())
+        private async Task<ICommunityEntity> LoadCommunityEntity(SqlDataReader reader,
+                                                                 CancellationToken cancellationToken = new ())
         {
             if (await reader.ReadAsync(cancellationToken))
             {
@@ -337,7 +346,8 @@ namespace BrickAtHeart.Communities.Data
             return null;
         }
 
-        private async Task<List<ICommunityEntity>> LoadCommunityEntities(SqlDataReader reader, CancellationToken cancellationToken = new ())
+        private async Task<List<ICommunityEntity>> LoadCommunityEntities(SqlDataReader reader,
+                                                                         CancellationToken cancellationToken = new ())
         {
             List<ICommunityEntity> result = new List<ICommunityEntity>();
 

@@ -1,9 +1,13 @@
 ﻿@page
+
 @using BrickAtHeart.Communities.Models.Attributes;
 @using BrickAtHeart.Communities.Models.Authorization;
 @using Microsoft.AspNetCore.Authorization
+
 @inject IAuthorizationService AuthorizationService
+
 @model BrickAtHeart.Communities.Areas.Administration.Pages.ProfileModel
+
 @{
     ViewData["Title"] = "Community Profile";
 }

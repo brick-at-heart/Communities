@@ -14,10 +14,10 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
         public bool IsPrimary { get; set; }
 
         [BindProperty]
-        public long MembershipId { get; set;}
+        public long MembershipId { get; set; }
 
         [BindProperty]
-        public string SlackMemberId { get; set;}
+        public string SlackMemberId { get; set; }
 
         public ProfileModel(UserStore userStore,
                             MembershipStore membershipStore,

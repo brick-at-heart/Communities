@@ -11,16 +11,17 @@ namespace BrickAtHeart.Communities.Models.Authorization
 {
     public class RoleStore : IRoleStore<Role>
     {
-        public RoleStore( IRoleDataClient roleDataClient,
-                          ILookupNormalizer normalizer,
-                          ILogger<RoleStore> logger )
+        public RoleStore(IRoleDataClient roleDataClient,
+                         ILookupNormalizer normalizer,
+                         ILogger<RoleStore> logger)
         {
             this.roleDataClient = roleDataClient;
             this.normalizer = normalizer;
             this.logger = logger;
         }
 
-        public async Task<IdentityResult> CreateAsync(Role role, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> CreateAsync(Role role,
+                                                      CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered CreateAsync");
 
@@ -51,7 +52,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IdentityResult> CreateMembershipRoleAsync(MembershipRole membershipRole, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> CreateMembershipRoleAsync(MembershipRole membershipRole,
+                                                                    CancellationToken cancellationToken = new())
         {
             IMembershipRoleEntity membershipRoleEntity = LoadEntity(membershipRole);
 
@@ -84,7 +86,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> DeleteAsync(Role role,
+                                                      CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered DeleteAsync");
 
@@ -115,7 +118,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IdentityResult> DeleteRoleMembershipAsync(MembershipRole roleMembership, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> DeleteRoleMembershipAsync(MembershipRole roleMembership,
+                                                                    CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered DeleteRoleMembershipAsync");
 
@@ -150,7 +154,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
         {
         }
 
-        public async Task<Role> FindByIdAsync(string roleId, CancellationToken cancellationToken = new())
+        public async Task<Role> FindByIdAsync(string roleId,
+                                              CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered FindByIdAsync");
 
@@ -178,27 +183,32 @@ namespace BrickAtHeart.Communities.Models.Authorization
             return role;
         }
 
-        public Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken = new())
+        public Task<Role> FindByNameAsync(string normalizedRoleName,
+                                          CancellationToken cancellationToken = new())
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken = new())
+        public Task<string> GetNormalizedRoleNameAsync(Role role,
+                                                       CancellationToken cancellationToken = new())
         {
             return Task.FromResult(role.NormalizedName);
         }
 
-        public Task<string> GetRoleIdAsync(Role role, CancellationToken cancellationToken = new())
+        public Task<string> GetRoleIdAsync(Role role,
+                                           CancellationToken cancellationToken = new())
         {
             return Task.FromResult(role.Id.ToString());
         }
 
-        public Task<string> GetRoleNameAsync(Role role, CancellationToken cancellationToken = new())
+        public Task<string> GetRoleNameAsync(Role role,
+                                             CancellationToken cancellationToken = new())
         {
             return Task.FromResult(role.Name);
         }
 
-        public async Task<IList<RoleRight>> RetrieveRightsByRoleIdAsync(long roleId, CancellationToken cancellationToken = new())
+        public async Task<IList<RoleRight>> RetrieveRightsByRoleIdAsync(long roleId,
+                                                                        CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered RetrieveRightsByRoleIdAsync");
 
@@ -220,7 +230,9 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IList<RoleRight>> RetrieveRightByRightIdUserIdAsync(long rightId, long userId, CancellationToken cancellationToken = new())
+        public async Task<IList<RoleRight>> RetrieveRightByRightIdUserIdAsync(long rightId,
+                                                                              long userId,
+                                                                              CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered RetrieveRightByRightIdUserIdAsync");
 
@@ -242,7 +254,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IList<MembershipRole>> RetrieveRoleMembershipByRoleIdAsync(long roleId, CancellationToken cancellationToken = new())
+        public async Task<IList<MembershipRole>> RetrieveRoleMembershipByRoleIdAsync(long roleId,
+                                                                                     CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered RetrieveRoleMembershipByRoleIdAsync");
 
@@ -262,7 +275,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task<IList<Role>> RetrieveRolesByCommunityIdAsync(long communityId, CancellationToken cancellationToken = new())
+        public async Task<IList<Role>> RetrieveRolesByCommunityIdAsync(long communityId,
+                                                                       CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered RetrieveRolesByCommunityIdAsync");
 
@@ -282,19 +296,24 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public Task SetNormalizedRoleNameAsync(Role role, string normalizedName, CancellationToken cancellationToken = new())
+        public Task SetNormalizedRoleNameAsync(Role role,
+                                               string normalizedName,
+                                               CancellationToken cancellationToken = new())
         {
             role.NormalizedName = normalizedName;
             return Task.CompletedTask;
         }
 
-        public Task SetRoleNameAsync(Role role, string roleName, CancellationToken cancellationToken = new())
+        public Task SetRoleNameAsync(Role role,
+                                     string roleName,
+                                     CancellationToken cancellationToken = new())
         {
             role.Name = roleName;
             return Task.CompletedTask;
         }
 
-        public async Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancellationToken = new())
+        public async Task<IdentityResult> UpdateAsync(Role role,
+                                                      CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered UpdateAsync");
 
@@ -325,7 +344,8 @@ namespace BrickAtHeart.Communities.Models.Authorization
             }
         }
 
-        public async Task UpdateRoleRightAsync(RoleRight right, CancellationToken cancellationToken = new())
+        public async Task UpdateRoleRightAsync(RoleRight right,
+                                               CancellationToken cancellationToken = new())
         {
             logger.LogInformation("Entered UpdateRoleRightAsync");
 

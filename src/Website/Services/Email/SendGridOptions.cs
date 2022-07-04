@@ -5,7 +5,7 @@
         /// <summary>
         ///  The section in the configuration where the options are read
         /// </summary>
-        public const string Section = "BrickAtHeart:Communities:Services:Email";
+        public const string Section = "SendGrid";
 
         /// <summary>
         ///  The SendGrid API Key

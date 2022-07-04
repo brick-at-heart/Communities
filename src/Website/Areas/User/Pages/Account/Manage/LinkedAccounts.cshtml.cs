@@ -98,7 +98,8 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage
             return new ChallengeResult(provider, properties);
         }
 
-        public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
+        public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider,
+                                                                string providerKey)
         {
             Models.User user = await userManager.GetUserAsync(User);
 

@@ -13,13 +13,13 @@ namespace BrickAtHeart.Communities.Areas.Administration.Pages.Roles
     [Authorize(Policy = "CanUpdateRole")]
     public class RoleEditModel : CommunityBasePageModel
     {
-        public IList<MembershipRoleDetailsPageModel> AssignedMembers {get; set;}
+        public IList<MembershipRoleDetailsPageModel> AssignedMembers { get; set; }
 
-        public IList<MembershipRoleDetailsPageModel> AvailableMembers {get; set;}
+        public IList<MembershipRoleDetailsPageModel> AvailableMembers { get; set; }
 
-        public IList<RoleRight> Rights {get; set;}
+        public IList<RoleRight> Rights { get; set; }
 
-        public RoleDetailsPageModel Role {get; set;}
+        public RoleDetailsPageModel Role { get; set; }
 
         public RoleEditModel(UserStore userStore,
                              MembershipStore membershipStore,

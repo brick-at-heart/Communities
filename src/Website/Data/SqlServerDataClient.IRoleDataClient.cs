@@ -11,7 +11,8 @@ namespace BrickAtHeart.Communities.Data
 {
     public partial class SqlServerDataClient : IRoleDataClient
     {
-        public async Task CreateMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity, CancellationToken cancellationToken)
+        public async Task CreateMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity,
+                                                    CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateMembershipRoleAsync");
 
@@ -52,7 +53,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task CreateRoleAsync(IRoleEntity roleEntity, CancellationToken cancellationToken)
+        public async Task CreateRoleAsync(IRoleEntity roleEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered CreateRoleAsync");
 
@@ -105,7 +107,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity, CancellationToken cancellationToken)
+        public async Task DeleteMembershipRoleAsync(IMembershipRoleEntity membershipRoleEntity,
+                                                    CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteMembershipRoleAsync");
 
@@ -134,7 +137,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task DeleteRoleAsync(IRoleEntity roleEntity, CancellationToken cancellationToken)
+        public async Task DeleteRoleAsync(IRoleEntity roleEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered DeleteRoleAsync");
 
@@ -163,7 +167,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IMembershipRoleEntity>> RetrieveMembershipRolesByRoleIdAsync(long roleId, CancellationToken cancellationToken)
+        public async Task<IList<IMembershipRoleEntity>> RetrieveMembershipRolesByRoleIdAsync(long roleId,
+                                                                                             CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveMembershipRolesByRoleIdAsync");
 
@@ -196,7 +201,9 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IRightEntity>> RetrieveRightByRightIdUserIdAsync(long rightId, long userId, CancellationToken cancellationToken = new())
+        public async Task<IList<IRightEntity>> RetrieveRightByRightIdUserIdAsync(long rightId,
+                                                                                 long userId,
+                                                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveRightByRightIdUserIdAsync");
 
@@ -233,7 +240,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IRightEntity>> RetrieveRightsByRoleIdAsync(long roleId, CancellationToken cancellationToken)
+        public async Task<IList<IRightEntity>> RetrieveRightsByRoleIdAsync(long roleId,
+                                                                           CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveRightsByRoleIdAsync");
 
@@ -266,7 +274,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IRoleEntity> RetrieveRoleByRoleIdAsync(long roleId, CancellationToken cancellationToken)
+        public async Task<IRoleEntity> RetrieveRoleByRoleIdAsync(long roleId,
+                                                                 CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveRoleByRoleIdAsync");
 
@@ -298,7 +307,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task<IList<IRoleEntity>> RetrieveRolesByCommunityIdAsync(long communityId, CancellationToken cancellationToken)
+        public async Task<IList<IRoleEntity>> RetrieveRolesByCommunityIdAsync(long communityId,
+                                                                              CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered RetrieveRolesByCommunityIdAsync");
 
@@ -331,7 +341,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task UpdateRoleAsync(IRoleEntity roleEntity, CancellationToken cancellationToken)
+        public async Task UpdateRoleAsync(IRoleEntity roleEntity,
+                                          CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateRoleAsync");
 
@@ -376,7 +387,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        public async Task UpdateRoleRightAsync(IRightEntity rightEntity, CancellationToken cancellationToken)
+        public async Task UpdateRoleRightAsync(IRightEntity rightEntity,
+                                               CancellationToken cancellationToken = new ())
         {
             logger.LogInformation("Entered UpdateRoleRightAsync");
 
@@ -409,7 +421,8 @@ namespace BrickAtHeart.Communities.Data
             }
         }
 
-        private async Task<List<IMembershipRoleEntity>> LoadMembershipRoleEntities(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<List<IMembershipRoleEntity>> LoadMembershipRoleEntities(SqlDataReader reader,
+                                                                                   CancellationToken cancellationToken = new ())
         {
             List<IMembershipRoleEntity> result = new List<IMembershipRoleEntity>();
 
@@ -428,7 +441,8 @@ namespace BrickAtHeart.Communities.Data
             return result;
         }
 
-        private async Task<List<IRightEntity>> LoadRightEntities(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<List<IRightEntity>> LoadRightEntities(SqlDataReader reader,
+                                                                 CancellationToken cancellationToken = new ())
         {
             List<IRightEntity> results = new List<IRightEntity>();
 
@@ -446,7 +460,8 @@ namespace BrickAtHeart.Communities.Data
             return results;
         }
 
-        private async Task<List<IRoleEntity>> LoadRoleEntities(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<List<IRoleEntity>> LoadRoleEntities(SqlDataReader reader,
+                                                               CancellationToken cancellationToken = new ())
         {
             List<IRoleEntity> results = new List<IRoleEntity>();
 
@@ -468,7 +483,8 @@ namespace BrickAtHeart.Communities.Data
             return results;
         }
 
-        private async Task<IRoleEntity> LoadRoleEntity(SqlDataReader reader, CancellationToken cancellationToken = new())
+        private async Task<IRoleEntity> LoadRoleEntity(SqlDataReader reader,
+                                                       CancellationToken cancellationToken = new ())
         {
             await reader.ReadAsync(cancellationToken);
 
