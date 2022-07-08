@@ -1,4 +1,4 @@
-name: Trigger Build for Pull Request
+name: Trigger Build for Pull Requests
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-and-publish:
-    name: Build and Publish
+    name: PR Build
     runs-on: ubuntu-latest
     steps:
 
@@ -28,6 +28,6 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      # Run dotnet build and publish
+      # Run dotnet build
       - name: Build Solution
         run: dotnet build ./src/Website/Website.csproj --configuration Release
