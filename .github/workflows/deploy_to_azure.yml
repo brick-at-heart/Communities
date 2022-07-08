@@ -6,7 +6,9 @@ name: Build and Deploy Website to Azure
 on:
   push:
     branches:
-      - main
+      - qa
+      - uat
+      - prod
   workflow_dispatch:
 
 jobs:
