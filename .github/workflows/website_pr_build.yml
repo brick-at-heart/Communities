@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 env:
@@ -31,7 +28,3 @@ jobs:
       # Run dotnet build and publish
       - name: Build Solution
         run: dotnet build ./src/Website/Website.csproj --configuration Release
-
-      # Publish output
-      - name: Publish
-        run: dotnet publish ./src/Website/Website.csproj -c Release -o Drop
