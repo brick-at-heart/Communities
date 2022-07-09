@@ -1,12 +1,12 @@
-name: Trigger Build for Pull Request
+name: Trigger Build for Pull Requests
 
 on:
   pull_request:
     branches:
-      - main
-  push:
-    branches:
-      - main
+      - dev
+      - qa
+      - uat
+      - prod
   workflow_dispatch:
 
 env:
@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-and-publish:
-    name: Build and Publish
+    name: PR Build
     runs-on: ubuntu-latest
     steps:
 
@@ -26,12 +26,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{env.DOTNET_VERSION}}
 
-      # Run dotnet build and publish
-      - name: Build Solution
+      # Run dotnet build
+      - name: Build Website
         run: dotnet build ./src/Website/Website.csproj --configuration Release
-
-      # Publish output
-      - name: Publish
-        run: dotnet publish ./src/Website/Website.csproj -c Release -o Drop
