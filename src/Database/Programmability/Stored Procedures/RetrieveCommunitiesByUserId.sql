@@ -5,7 +5,7 @@
 AS
 BEGIN
 
-	SELECT
+	SELECT DISTINCT
 		C.[Id],
 		C.[FullName],
 		C.[JoinType],
