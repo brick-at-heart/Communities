@@ -7,8 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "Website\Website.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{4D21BA6E-DBA6-4015-A53E-56F09FF9D35A}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\deploy_to_azure.yml = ..\.github\workflows\deploy_to_azure.yml
 		..\.github\workflows\website_pr_build.yml = ..\.github\workflows\website_pr_build.yml
+		..\.github\workflows\deploy_to_azure_qa.yml = ..\.github\workflows\deploy_to_azure_qa.yml
 	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{53621995-88A7-4BB6-A6E1-2FD3FC6891C0}"
