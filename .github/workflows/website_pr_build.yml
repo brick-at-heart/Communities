@@ -26,8 +26,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{env.DOTNET_VERSION}}
 
       # Run dotnet build
-      - name: Build Solution
+      - name: Build Website
         run: dotnet build ./src/Website/Website.csproj --configuration Release
