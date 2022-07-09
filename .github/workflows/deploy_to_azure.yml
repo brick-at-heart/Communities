@@ -7,8 +7,6 @@ on:
   push:
     branches:
       - qa
-      - uat
-      - prod
   workflow_dispatch:
 
 env:
