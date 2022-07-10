@@ -127,6 +127,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.Local.publish.xml" />
-    <None Include="Database.Azure-Test.publish.xml" />
   </ItemGroup>
 </Project>
