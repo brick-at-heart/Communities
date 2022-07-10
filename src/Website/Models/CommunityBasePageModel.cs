@@ -24,6 +24,12 @@ namespace BrickAtHeart.Communities.Models
         public async Task<Community> GetCurrentCommunityForUser(ClaimsPrincipal user)
         {
             Membership membership = (await GetCurrentMembershipForUser(user));
+
+            if (membership == null)
+            {
+                return null;
+            }
+
             return (await communityStore.RetrieveCommunitiesByUserIdAsync(membership.UserId)).FirstOrDefault(c => c.Id == membership.CommunityId);
         }
 
