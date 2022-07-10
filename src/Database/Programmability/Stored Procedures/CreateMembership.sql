@@ -58,15 +58,21 @@ BEGIN
 	WHERE R.[CommunityId] = @communityId
 	  AND R.[IsCommunityDefault] = @TRUE;
 
-	INSERT INTO [dbo].[MembershipRole]
-	(
-		[MembershipId],
-		[RoleId]
-	)
-	VALUES
-	(
-		@id,
-		@defaultRole
-	)
+	-- When creating the community, no roles have been defined for it.
+	IF @defaultRole IS NOT NULL
+		BEGIN
+		
+			INSERT INTO [dbo].[MembershipRole]
+			(
+				[MembershipId],
+				[RoleId]
+			)
+			VALUES
+			(
+				@id,
+				@defaultRole
+			)
+
+		END
 
 END
