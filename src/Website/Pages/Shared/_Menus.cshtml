@@ -14,12 +14,14 @@
         </li>
         @if(SignInManager.IsSignedIn(User))
         {
+            <!--
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Community</a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" asp-area="Community" asp-page="/LugBulk">LUGBULK</a></li>
             </ul>
         </li>
+            -->
             @if((await AuthorizationService.AuthorizeAsync(User, "MaintainUserGroup")).Succeeded)
             {
             <li class="nav-item dropdown">
@@ -37,7 +39,7 @@
                     {
                     <li><a class="dropdown-item" asp-area="Administration" asp-page="/Roles/Index">Roles</a></li>
                     }
-                    <li><a class="dropdown-item" asp-area="Administration" asp-page="/LugBulk">LUGBULK</a></li>
+                    <!--<li><a class="dropdown-item" asp-area="Administration" asp-page="/LugBulk">LUGBULK</a></li>-->
                 </ul>
             </li>
             }
