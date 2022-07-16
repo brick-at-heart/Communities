@@ -11,7 +11,7 @@ namespace BrickAtHeart.Communities.Pages
                           ILogger<IndexModel> logger) :
             base(userStore, membershipStore, communityStore)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         public void OnGet()
@@ -19,6 +19,6 @@ namespace BrickAtHeart.Communities.Pages
 
         }
 
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<IndexModel> logger;
     }
 }
