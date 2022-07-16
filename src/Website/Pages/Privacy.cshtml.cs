@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using BrickAtHeart.Communities.Models;
 using Microsoft.Extensions.Logging;
 
 namespace BrickAtHeart.Communities.Pages
 {
-    public class PrivacyModel : PageModel
+    public class PrivacyModel : CommunityBasePageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
-
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public PrivacyModel(UserStore userStore,
+                            MembershipStore membershipStore,
+                            CommunityStore communityStore, 
+                            ILogger<PrivacyModel> logger) : 
+            base(userStore, membershipStore, communityStore)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         public void OnGet()
         {
         }
+
+        private readonly ILogger<PrivacyModel> logger;
     }
 }
