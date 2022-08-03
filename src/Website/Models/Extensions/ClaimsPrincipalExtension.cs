@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 
 namespace BrickAtHeart.Communities.Models.Extensions
 {
@@ -14,6 +15,17 @@ namespace BrickAtHeart.Communities.Models.Extensions
             }
 
             return 0;
+        }
+
+        public static TimeZoneInfo GetTimeZoneInfo(this ClaimsPrincipal principal, UserStore userStore)
+        { 
+            long userId = principal.GetUserId();
+
+            User user = userStore.FindByIdAsync(userId.ToString()).Result;
+            
+            string timeZone = string.IsNullOrWhiteSpace(user.TimeZone) ? "UTC" : user.TimeZone;
+
+            return TimeZoneInfo.FindSystemTimeZoneById(timeZone);
         }
     }
 }

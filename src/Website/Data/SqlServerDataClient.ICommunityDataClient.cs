@@ -66,7 +66,7 @@ namespace BrickAtHeart.Communities.Data
             {
                 logger.LogWarning(e, "Error in CreateCommunityAsync");
                 throw;
-            }
+           } 
         }
 
         public async Task DeleteCommunityAsync(ICommunityEntity communityEntity,

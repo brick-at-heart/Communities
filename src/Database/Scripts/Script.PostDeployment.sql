@@ -43,6 +43,39 @@ BEGIN
 END
 
 IF NOT EXISTS ( SELECT TOP (1) 1
+                FROM [dbo].[EventStatus]
+				WHERE [Id] = 1 )
+BEGIN
+	INSERT INTO [dbo].[EventStatus]
+	(
+		[Id],
+		[Name]
+	)
+	VALUES
+	(
+		1,
+		'Scheduled'
+	)
+END
+
+IF NOT EXISTS ( SELECT TOP (1) 1
+                FROM [dbo].[EventStatus]
+				WHERE [Id] = 2 )
+BEGIN
+	INSERT INTO [dbo].[EventStatus]
+	(
+		[Id],
+		[Name]
+	)
+	VALUES
+	(
+		2,
+		'Cancelled'
+	)
+END
+
+
+IF NOT EXISTS ( SELECT TOP (1) 1
 			    FROM [dbo].[Right] R 
 			    WHERE R.[Id] = 1 )
 BEGIN
@@ -131,3 +164,92 @@ BEGIN
 	)
 
 END
+
+IF NOT EXISTS ( SELECT TOP (1) 1
+			    FROM [dbo].[Right] R 
+			    WHERE R.[Id] = 6 )
+BEGIN
+
+	INSERT INTO [dbo].[Right]
+	(
+		[Id],
+		[RightName]
+	)
+	VALUES
+	(
+		6,
+		N'Create Event'
+	)
+
+END
+
+IF NOT EXISTS ( SELECT TOP (1) 1
+			    FROM [dbo].[Right] R 
+			    WHERE R.[Id] = 7 )
+BEGIN
+
+	INSERT INTO [dbo].[Right]
+	(
+		[Id],
+		[RightName]
+	)
+	VALUES
+	(
+		7,
+		N'Update Event'
+	)
+
+END
+
+IF NOT EXISTS ( SELECT TOP (1) 1
+			    FROM [dbo].[Right] R 
+			    WHERE R.[Id] = 8 )
+BEGIN
+
+	INSERT INTO [dbo].[Right]
+	(
+		[Id],
+		[RightName]
+	)
+	VALUES
+	(
+		8,
+		N'Delete Event'
+	)
+
+END
+
+IF NOT EXISTS ( SELECT TOP (1) 1
+			    FROM [dbo].[Right] R 
+			    WHERE R.[Id] = 9 )
+BEGIN
+
+	INSERT INTO [dbo].[Right]
+	(
+		[Id],
+		[RightName]
+	)
+	VALUES
+	(
+		9,
+		N'Cancel Event'
+	)
+
+END
+
+INSERT INTO [dbo].[RoleRight]
+(
+	RoleId,
+	RightId
+)
+SELECT
+	RO.Id,
+	RI.Id
+FROM [dbo].[Role] RO
+	CROSS JOIN [dbo].[Right] RI
+WHERE IsSystemGeneratedOwner = 1
+EXCEPT
+SELECT
+	RR.RoleId,
+	RR.RightId
+FROM [dbo].[RoleRight] RR

@@ -1,10 +1,14 @@
 ﻿using BrickAtHeart.Communities.Models;
+using BrickAtHeart.Communities.Models.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage.Profile
@@ -62,6 +66,10 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage.Profile
         [BindProperty]
         [Display(Name = "Address 2")]
         public string StreetAddressLine2 { get; set; }
+
+        [BindProperty]
+        [Display(Name = "Time Zone")]
+        public List<SelectListItem> TimeZone { get; set; }
 
         public IndexModel(UserStore userStore,
                           MembershipStore membershipStore,
@@ -169,6 +177,14 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage.Profile
                 userChanged = true;
             }
 
+            string tz = ModelState["timezone"].RawValue.ToString();
+
+            if (tz != user.TimeZone)
+            {
+                user.TimeZone = tz;
+                userChanged = true;
+            }
+
             if (userChanged)
             {
                 await userManager.UpdateAsync(user);
@@ -200,6 +216,14 @@ namespace BrickAtHeart.Communities.Areas.User.Pages.Account.Manage.Profile
             Region = user.Region;
             StreetAddressLine1 = user.StreetAddressLine1;
             StreetAddressLine2 = user.StreetAddressLine2;
+            TimeZone = TimeZoneInfo.GetSystemTimeZones()
+                .Select(tz => new SelectListItem
+                {
+                    Value = tz.Id,
+                    Text = tz.DisplayName,
+                    Selected = tz.Id == user.TimeZone
+                })
+                .ToList();
         }
 
         private UserManager<Models.User> userManager;

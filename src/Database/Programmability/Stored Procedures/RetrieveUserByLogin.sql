@@ -34,7 +34,8 @@ BEGIN
 		U.[Region],
 		U.[Country],
 		U.[PostalCode],
-		U.[DateOfBirth]
+		U.[DateOfBirth],
+		U.[TimeZone]
 	FROM [dbo].[User] U
 		INNER JOIN [dbo].[Login] L
 			ON U.[Id] = L.[UserId]

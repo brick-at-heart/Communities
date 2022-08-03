@@ -17,6 +17,18 @@ namespace BrickAtHeart.Communities.Models.Authorization
         MaintainUserGroupProfile = 4,
 
         [PolicyName("CanMaintainMemberships")]
-        MaintainMemberships = 5
+        MaintainMemberships = 5,
+
+        [PolicyName("CanCreateEvent")]
+        CreateEvent = 6,
+
+        [PolicyName("CanUpdateEvent")]
+        UpdateEvent = 7,
+
+        [PolicyName("CanDeleteEvent")]
+        DeleteEvent = 8,
+
+        [PolicyName("CanCancelEvent")]
+        CancelEvent = 9
     }
 }

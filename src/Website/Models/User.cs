@@ -41,6 +41,7 @@ namespace BrickAtHeart.Communities.Models
         [PersonalData]
         public string SurName { get; set; }
 
+        public string TimeZone { get; set; }
         public IList<Claim> Claims { get; set; } = new List<Claim>();
 
         public User(string displayName)

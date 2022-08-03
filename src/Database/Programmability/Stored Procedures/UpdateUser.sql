@@ -17,7 +17,8 @@
 	@region					NVARCHAR(100),
 	@country				NVARCHAR(100),
 	@postalCode				NVARCHAR(100),
-	@dateOfBirth			DATE
+	@dateOfBirth			DATE,
+	@timeZone				NVARCHAR(32)
 )
 AS
 BEGIN
@@ -40,6 +41,7 @@ BEGIN
 		[Country] = @country,
 		[PostalCode] = @postalCode,
 		[DateOfBirth] = @dateOfBirth,
+		[TimeZone] = @timeZone,
 		[Updated] = GetUtcDate()
 	WHERE [Id] = @id;
 

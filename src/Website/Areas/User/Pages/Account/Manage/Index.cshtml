@@ -67,6 +67,10 @@
             <label asp-for="DateOfBirth"></label>
             <input asp-for="DateOfBirth" class="form-control" tabindex="5"/>
         </div>
+        <div class="form-group col-md-6">
+            <label asp-for="TimeZone"></label>
+            <select name="timezone" asp-items="Model.TimeZone" class="form-control"></select>
+        </div>
     </div>
     <button id="update-profile-button" type="submit" class="btn btn-dark" tabindex="12">Save</button>
     <a id="download-profile-button" asp-area="User" asp-page="/Account/Manage/Download" class="btn btn-dark" tabindex="13">Download</a>

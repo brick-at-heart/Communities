@@ -1,0 +1,112 @@
+﻿@page
+
+@model BrickAtHeart.Communities.Areas.Community.Pages.Events.EventsAddModel
+
+@{
+     ViewData["Title"] = "Add Event";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<form id="add-event-form" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="Event.EventName">Name</label>
+            <input asp-for="Event.EventName" class="form-control" tabindex="1" />
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Event.CommunityDisplayName">Community</label>
+            <input asp-for="Event.CommunityDisplayName" class="form-control" tabindex="2" readonly/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label asp-for="Event.Location">Location</label>
+            <input asp-for="Event.Location" class="form-control" tabindex="3" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-3">
+            <label asp-for="Event.StartDate">Start Date/Time</label>
+            <input asp-for="Event.StartDate" class="form-control" tabindex="4" />
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Event.StartTime">&nbsp;</label>
+            <select asp-for="Event.StartTime" class="form-control" tabindex="7" >
+                <option value="-1"></option>
+                <option value="0">12:00 AM</option>
+                <option value="1">1:00 AM</option>
+                <option value="2">2:00 AM</option>
+                <option value="3">3:00 AM</option>
+                <option value="4">4:00 AM</option>
+                <option value="5">5:00 AM</option>
+                <option value="6">6:00 AM</option>
+                <option value="7">7:00 AM</option>
+                <option value="8">8:00 AM</option>
+                <option value="9">9:00 AM</option>
+                <option value="10">10:00 AM</option>
+                <option value="11">11:00 AM</option>
+                <option value="12">12:00 PM</option>
+                <option value="13">1:00 PM</option>
+                <option value="14">2:00 PM</option>
+                <option value="15">3:00 PM</option>
+                <option value="16">4:00 PM</option>
+                <option value="17">5:00 PM</option>
+                <option value="18">6:00 PM</option>
+                <option value="19">7:00 PM</option>
+                <option value="20">8:00 PM</option>
+                <option value="21">9:00 PM</option>
+                <option value="22">10:00 PM</option>
+                <option value="23">11:00 PM</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Event.EndDate">End Date/Time</label>
+            <input asp-for="Event.EndDate" class="form-control" tabindex="4" />
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Event.EndTime">&nbsp;</label>
+            <select asp-for="Event.EndTime" class="form-control" tabindex="5" >
+                <option value="-1"></option>
+                <option value="0">12:00 AM</option>
+                <option value="1">1:00 AM</option>
+                <option value="2">2:00 AM</option>
+                <option value="3">3:00 AM</option>
+                <option value="4">4:00 AM</option>
+                <option value="5">5:00 AM</option>
+                <option value="6">6:00 AM</option>
+                <option value="7">7:00 AM</option>
+                <option value="8">8:00 AM</option>
+                <option value="9">9:00 AM</option>
+                <option value="10">10:00 AM</option>
+                <option value="11">11:00 AM</option>
+                <option value="12">12:00 PM</option>
+                <option value="13">1:00 PM</option>
+                <option value="14">2:00 PM</option>
+                <option value="15">3:00 PM</option>
+                <option value="16">4:00 PM</option>
+                <option value="17">5:00 PM</option>
+                <option value="18">6:00 PM</option>
+                <option value="19">7:00 PM</option>
+                <option value="20">8:00 PM</option>
+                <option value="21">9:00 PM</option>
+                <option value="22">10:00 PM</option>
+                <option value="23">11:00 PM</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-12">
+            <label asp-for="Event.Description">Description</label>
+            <textarea asp-for="Event.Description" class="form-control" rows="5" tabindex="8"></textarea>
+        </div>
+    </div>
+    <input type="hidden" asp-for="Event.CommunityId" />
+    <button id="save-event-button" type="submit" asp-page-handler="Save" class="btn btn-dark" tabindex="9">Save</button>
+    <button id="save-and-new-event-button" type="submit" asp-page-handler="SaveAndNew" class="btn btn-dark" tabindex="10">Save and New</button>
+    <button id="clear-event-button" type="reset" class="btn btn-dark" tabindex="11">Clear</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

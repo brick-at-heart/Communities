@@ -3,6 +3,7 @@ using BrickAtHeart.Communities.Models;
 using BrickAtHeart.Communities.Models.Attributes;
 using BrickAtHeart.Communities.Models.Authentication;
 using BrickAtHeart.Communities.Models.Authorization;
+using BrickAtHeart.Communities.Models.Events;
 using BrickAtHeart.Communities.Services.Email;
 using BrickAtHeart.Communities.Services.Slack;
 using Microsoft.AspNetCore.Authentication;
@@ -100,11 +101,13 @@ namespace BrickAtHeart.Communities
             services.AddScoped<ICommunityDataClient, SqlServerDataClient>();
             services.AddScoped<IMembershipDataClient, SqlServerDataClient>();
             services.AddScoped<IRoleDataClient, SqlServerDataClient>();
+            services.AddScoped<IEventDataClient, SqlServerDataClient>();
 
             services.AddScoped<CommunityStore>();
             services.AddScoped<MembershipStore>();
             services.AddScoped<RoleStore>();
             services.AddScoped<UserStore>();
+            services.AddScoped<EventStore>();
 
             services.AddScoped<IAuthorizationHandler, RequiredRightHandler>();
             services.AddScoped<IAuthorizationHandler, RequireAnyRightHandler>();
@@ -203,8 +206,15 @@ namespace BrickAtHeart.Communities
                 options.AddPolicy(Right.CreateRole.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.CreateRole)));
                 options.AddPolicy(Right.UpdateRole.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.UpdateRole)));
                 options.AddPolicy(Right.DeleteRole.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.DeleteRole)));
+
                 options.AddPolicy(Right.MaintainUserGroupProfile.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.MaintainUserGroupProfile)));
+
                 options.AddPolicy(Right.MaintainMemberships.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.MaintainMemberships)));
+
+                options.AddPolicy(Right.CreateEvent.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.CreateEvent)));
+                options.AddPolicy(Right.UpdateEvent.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.UpdateEvent)));
+                options.AddPolicy(Right.CancelEvent.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.CancelEvent)));
+                options.AddPolicy(Right.DeleteEvent.GetPolicyName(), policy => policy.Requirements.Add(new RequiredRightRequirement(Right.DeleteEvent)));
 
                 options.AddPolicy("MaintainRoles", policy => policy.Requirements.Add(new RequireAnyRightRequirement(new List<Right> { Right.CreateRole, Right.UpdateRole, Right.DeleteRole })));
                 options.AddPolicy("MaintainUserGroup", policy => policy.Requirements.Add(new RequireAnyRightRequirement(new List<Right> { Right.CreateRole, Right.UpdateRole, Right.DeleteRole, Right.MaintainUserGroupProfile, Right.MaintainMemberships })));

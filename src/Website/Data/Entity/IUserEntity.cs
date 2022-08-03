@@ -39,5 +39,7 @@ namespace BrickAtHeart.Communities.Data.Entity
         string StreetAddressLine2 { get; set; }
 
         string SurName { get; set; }
+
+        string TimeZone { get; set; }
     }
 }
