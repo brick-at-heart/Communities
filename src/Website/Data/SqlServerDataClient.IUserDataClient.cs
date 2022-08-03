@@ -419,86 +419,90 @@ namespace BrickAtHeart.Communities.Data
         public async Task UpdateUserAsync(IUserEntity userEntity,
                                           CancellationToken cancellationToken = new ())
         {
-            logger.LogInformation("Entered UpdateUserAsync");
+            logger.LogDebug("Entered UpdateUserAsync");
 
             await using SqlConnection conn = new SqlConnection(connectionString);
             await using SqlCommand command = new SqlCommand("[dbo].[UpdateUser]", conn)
             {
                 CommandType = CommandType.StoredProcedure
             };
-            logger.LogTrace($"Preparing to call stored procedure: {command.CommandText}");
+            logger.LogDebug($"Preparing to call stored procedure: {command.CommandText}");
 
             SqlParameter idParameter = new SqlParameter("@id", SqlDbType.BigInt) { Value = userEntity.Id };
             command.Parameters.Add(idParameter);
-            logger.LogTrace($"Parameter {idParameter.ParameterName} of type {idParameter.SqlDbType} has value {idParameter.Value}");
+            logger.LogDebug($"Parameter {idParameter.ParameterName} of type {idParameter.SqlDbType} has value {idParameter.Value}");
 
             SqlParameter displayNameParameter = new SqlParameter("displayName", SqlDbType.NVarChar, 100) { Value = userEntity.DisplayName };
             command.Parameters.Add(displayNameParameter);
-            logger.LogTrace($"Parameter {displayNameParameter.ParameterName} of type {displayNameParameter.SqlDbType} has value {displayNameParameter.Value}");
+            logger.LogDebug($"Parameter {displayNameParameter.ParameterName} of type {displayNameParameter.SqlDbType} has value {displayNameParameter.Value}");
 
             SqlParameter isActiveParameter = new SqlParameter("isActive", SqlDbType.Bit) { Value = userEntity.IsActive };
             command.Parameters.Add(isActiveParameter);
-            logger.LogTrace($"Parameter {isActiveParameter.ParameterName} of type {isActiveParameter.SqlDbType} has value {isActiveParameter.Value}");
+            logger.LogDebug($"Parameter {isActiveParameter.ParameterName} of type {isActiveParameter.SqlDbType} has value {isActiveParameter.Value}");
 
             SqlParameter isApprovedParameter = new SqlParameter("isApproved", SqlDbType.Bit) { Value = userEntity.IsApproved };
             command.Parameters.Add(isApprovedParameter);
-            logger.LogTrace($"Parameter {isApprovedParameter.ParameterName} of type {isApprovedParameter.SqlDbType} has value {isApprovedParameter.Value}");
+            logger.LogDebug($"Parameter {isApprovedParameter.ParameterName} of type {isApprovedParameter.SqlDbType} has value {isApprovedParameter.Value}");
 
             SqlParameter emailParameter = new SqlParameter("email", SqlDbType.NVarChar, 320) { Value = userEntity.Email };
             command.Parameters.Add(emailParameter);
-            logger.LogTrace($"Parameter {emailParameter.ParameterName} of type {emailParameter.SqlDbType} has value {emailParameter.Value}");
+            logger.LogDebug($"Parameter {emailParameter.ParameterName} of type {emailParameter.SqlDbType} has value {emailParameter.Value}");
 
             SqlParameter normalizedEmailParameter = new SqlParameter("normalizedEmail", SqlDbType.NVarChar, 320) { Value = userEntity.NormalizedEmail };
             command.Parameters.Add(normalizedEmailParameter);
-            logger.LogTrace($"Parameter {normalizedEmailParameter.ParameterName} of type {normalizedEmailParameter.SqlDbType} has value {normalizedEmailParameter.Value}");
+            logger.LogDebug($"Parameter {normalizedEmailParameter.ParameterName} of type {normalizedEmailParameter.SqlDbType} has value {normalizedEmailParameter.Value}");
 
             SqlParameter emailConfirmedParameter = new SqlParameter("emailConfirmed", SqlDbType.Bit) { Value = userEntity.EmailConfirmed };
             command.Parameters.Add(emailConfirmedParameter);
-            logger.LogTrace($"Parameter {emailConfirmedParameter.ParameterName} of type {emailConfirmedParameter.SqlDbType} has value {emailConfirmedParameter.Value}");
+            logger.LogDebug($"Parameter {emailConfirmedParameter.ParameterName} of type {emailConfirmedParameter.SqlDbType} has value {emailConfirmedParameter.Value}");
 
             SqlParameter givenNameParameter = new SqlParameter("givenName", SqlDbType.NVarChar, 100) { Value = userEntity.GivenName ?? "" };
             command.Parameters.Add(givenNameParameter);
-            logger.LogTrace($"Parameter {givenNameParameter.ParameterName} of type {givenNameParameter.SqlDbType} has value {givenNameParameter.Value}");
+            logger.LogDebug($"Parameter {givenNameParameter.ParameterName} of type {givenNameParameter.SqlDbType} has value {givenNameParameter.Value}");
 
             SqlParameter surNameParameter = new SqlParameter("surName", SqlDbType.NVarChar, 100) { Value = userEntity.SurName ?? "" };
             command.Parameters.Add(surNameParameter);
-            logger.LogTrace($"Parameter {surNameParameter.ParameterName} of type {surNameParameter.SqlDbType} has value {surNameParameter.Value}");
+            logger.LogDebug($"Parameter {surNameParameter.ParameterName} of type {surNameParameter.SqlDbType} has value {surNameParameter.Value}");
 
             SqlParameter phoneNumberParameter = new SqlParameter("phoneNumber", SqlDbType.NVarChar, 24) { Value = userEntity.PhoneNumber ?? "" };
             command.Parameters.Add(phoneNumberParameter);
-            logger.LogTrace($"Parameter {phoneNumberParameter.ParameterName} of type {phoneNumberParameter.SqlDbType} has value {phoneNumberParameter.Value}");
+            logger.LogDebug($"Parameter {phoneNumberParameter.ParameterName} of type {phoneNumberParameter.SqlDbType} has value {phoneNumberParameter.Value}");
 
             SqlParameter phoneNumberConfirmedParameter = new SqlParameter("phoneNumberConfirmed", SqlDbType.Bit) { Value = userEntity.PhoneNumberConfirmed };
             command.Parameters.Add(phoneNumberConfirmedParameter);
-            logger.LogTrace($"Parameter {phoneNumberConfirmedParameter.ParameterName} of type {phoneNumberConfirmedParameter.SqlDbType} has value {phoneNumberConfirmedParameter.Value}");
+            logger.LogDebug($"Parameter {phoneNumberConfirmedParameter.ParameterName} of type {phoneNumberConfirmedParameter.SqlDbType} has value {phoneNumberConfirmedParameter.Value}");
 
             SqlParameter streetAddressLineOneParameter = new SqlParameter("streetAddressLine1", SqlDbType.NVarChar, 100) { Value = userEntity.StreetAddressLine1 ?? "" };
             command.Parameters.Add(streetAddressLineOneParameter);
-            logger.LogTrace($"Parameter {streetAddressLineOneParameter.ParameterName} of type {streetAddressLineOneParameter.SqlDbType} has value {streetAddressLineOneParameter.Value}");
+            logger.LogDebug($"Parameter {streetAddressLineOneParameter.ParameterName} of type {streetAddressLineOneParameter.SqlDbType} has value {streetAddressLineOneParameter.Value}");
 
             SqlParameter streetAddressLineTwoParameter = new SqlParameter("streetAddressLine2", SqlDbType.NVarChar, 100) { Value = userEntity.StreetAddressLine2 ?? "" };
             command.Parameters.Add(streetAddressLineTwoParameter);
-            logger.LogTrace($"Parameter {streetAddressLineTwoParameter.ParameterName} of type {streetAddressLineTwoParameter.SqlDbType} has value {streetAddressLineTwoParameter.Value}");
+            logger.LogDebug($"Parameter {streetAddressLineTwoParameter.ParameterName} of type {streetAddressLineTwoParameter.SqlDbType} has value {streetAddressLineTwoParameter.Value}");
 
             SqlParameter cityParameter = new SqlParameter("city", SqlDbType.NVarChar, 100) { Value = userEntity.City ?? "" };
             command.Parameters.Add(cityParameter);
-            logger.LogTrace($"Parameter {cityParameter.ParameterName} of type {cityParameter.SqlDbType} has value {cityParameter.Value}");
+            logger.LogDebug($"Parameter {cityParameter.ParameterName} of type {cityParameter.SqlDbType} has value {cityParameter.Value}");
 
             SqlParameter regionParameter = new SqlParameter("region", SqlDbType.NVarChar, 100) { Value = userEntity.Region ?? "" };
             command.Parameters.Add(regionParameter);
-            logger.LogTrace($"Parameter {regionParameter.ParameterName} of type {regionParameter.SqlDbType} has value {regionParameter.Value}");
+            logger.LogDebug($"Parameter {regionParameter.ParameterName} of type {regionParameter.SqlDbType} has value {regionParameter.Value}");
 
             SqlParameter countryParameter = new SqlParameter("country", SqlDbType.NVarChar, 100) { Value = userEntity.Country ?? "" };
             command.Parameters.Add(countryParameter);
-            logger.LogTrace($"Parameter {countryParameter.ParameterName} of type {countryParameter.SqlDbType} has value {countryParameter.Value}");
+            logger.LogDebug($"Parameter {countryParameter.ParameterName} of type {countryParameter.SqlDbType} has value {countryParameter.Value}");
 
             SqlParameter postalCodeParameter = new SqlParameter("postalCode", SqlDbType.NVarChar, 100) { Value = userEntity.PostalCode ?? "" };
             command.Parameters.Add(postalCodeParameter);
-            logger.LogTrace($"Parameter {postalCodeParameter.ParameterName} of type {postalCodeParameter.SqlDbType} has value {postalCodeParameter.Value}");
+            logger.LogDebug($"Parameter {postalCodeParameter.ParameterName} of type {postalCodeParameter.SqlDbType} has value {postalCodeParameter.Value}");
 
             SqlParameter dateOfBirthParameter = new SqlParameter("dateOfBirth", SqlDbType.Date) { Value = userEntity.DateOfBirth };
             command.Parameters.Add(dateOfBirthParameter);
-            logger.LogTrace($"Parameter {dateOfBirthParameter.ParameterName} of type {dateOfBirthParameter.SqlDbType} has value {dateOfBirthParameter.Value}");
+            logger.LogDebug($"Parameter {dateOfBirthParameter.ParameterName} of type {dateOfBirthParameter.SqlDbType} has value {dateOfBirthParameter.Value}");
+
+            SqlParameter timeZoneParameter = new SqlParameter("timeZone", SqlDbType.NVarChar, 32) { Value = userEntity.TimeZone };
+            command.Parameters.Add(timeZoneParameter);
+            logger.LogDebug($"Parameter {timeZoneParameter.ParameterName} of type {timeZoneParameter.SqlDbType} has value {timeZoneParameter}");
 
             await conn.OpenAsync(cancellationToken);
 
@@ -510,7 +514,7 @@ namespace BrickAtHeart.Communities.Data
             }
             catch (Exception e)
             {
-                logger.LogWarning(e, "Error in UpdateUserAsync");
+                logger.LogWarning(e, "Exception thrown in UpdateUserAsync");
                 throw;
             }
         }
@@ -546,7 +550,8 @@ namespace BrickAtHeart.Communities.Data
                     Region = reader.GetString("Region"),
                     Country = reader.GetString("Country"),
                     PostalCode = reader.GetString("PostalCode"),
-                    DateOfBirth = reader.GetDateTime("DateOfBirth")
+                    DateOfBirth = reader.GetDateTime("DateOfBirth"),
+                    TimeZone = reader.GetString("TimeZone")
                 });
             }
 
@@ -582,7 +587,8 @@ namespace BrickAtHeart.Communities.Data
                 Region = reader.GetString("Region"),
                 Country = reader.GetString("Country"),
                 PostalCode = reader.GetString("PostalCode"),
-                DateOfBirth = reader.GetDateTime("DateOfBirth")
+                DateOfBirth = reader.GetDateTime("DateOfBirth"),
+                TimeZone = reader.GetString("TimeZone")
             };
 
         }

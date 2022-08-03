@@ -500,6 +500,7 @@ namespace BrickAtHeart.Communities.Models
                 StreetAddressLine1 = user.StreetAddressLine1,
                 StreetAddressLine2 = user.StreetAddressLine2,
                 SurName = user.SurName,
+                TimeZone = user.TimeZone
             };
         }
 
@@ -530,6 +531,7 @@ namespace BrickAtHeart.Communities.Models
                 StreetAddressLine1 = entity.StreetAddressLine1,
                 StreetAddressLine2 = entity.StreetAddressLine2,
                 SurName = entity.SurName,
+                TimeZone = entity.TimeZone,
                 UserName = entity.DisplayName
             };
         }

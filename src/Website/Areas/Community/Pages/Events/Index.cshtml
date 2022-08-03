@@ -1,0 +1,116 @@
+﻿@page
+
+@using BrickAtHeart.Communities.Models.Events;
+@using BrickAtHeart.Communities.Models.Extensions;
+@using Microsoft.AspNetCore.Authorization
+
+@model BrickAtHeart.Communities.Areas.Community.Pages.Events.EventsIndexModel
+
+@inject IAuthorizationService AuthorizationService
+@inject UserStore userStore
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+        @if (Model.EventFilter == "Prior")
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Scheduled">Scheduled</a>    
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Cancelled">Cancelled</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current = "true" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Prior">Prior</a>
+            </li>
+        }
+        else if (Model.EventFilter == "Cancelled")
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Scheduled">Scheduled</a>    
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Cancelled">Cancelled</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Prior">Prior</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Scheduled">Scheduled</a>    
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Cancelled">Cancelled</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Community" asp-page="/Events/Index" asp-route-filter="Prior">Prior</a>
+            </li>
+        }
+        @if((await AuthorizationService.AuthorizeAsync(User, "CanCreateEvent")).Succeeded)
+        {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Community" asp-page="/Events/Add">+</a>
+        </li>
+        }
+    </ul>
+  </div>
+  @if (Model.Events == null || Model.Events.Count() < 1)
+  {
+      <div class="card-body">
+        <p class="align-content-center">There are no events for this status.
+            @if((await AuthorizationService.AuthorizeAsync(User, "CanCreateEvent")).Succeeded)
+            {
+                <span>
+                Click '+' to schedule a new event.
+                </span>
+            }
+        </p>
+      </div>
+  }
+  else
+  {
+      <form id="event-list-form" method="post">
+      @foreach(Event e in Model.Events)
+      {
+        <div class="card-body">
+            <div class="card">
+                <h4 class="card-header">
+                    @e.Name
+                </h4>
+                <div class="card-body">
+                    <h3 class="card-title">@e.Location</h3>
+                    <h4 class="card-subtitle">@e.Schedules[0].ToString(User.GetTimeZoneInfo(userStore))</h4>
+                    <p class="card-text mt-2">@e.Description</p>
+                    @if (Model.EventFilter != "Prior" && Model.EventFilter != "Cancelled")
+                    {
+                        @if((await AuthorizationService.AuthorizeAsync(User, "CanUpdateEvent")).Succeeded)
+                        {
+                    <a class="btn btn-dark" asp-area="Community" asp-page="/Events/Edit" asp-route-eventId="@e.Id">Edit</a>
+                        }
+                        @if((await AuthorizationService.AuthorizeAsync(User, "CanCancelEvent")).Succeeded)
+                        {
+                    <button type="submit" class="btn btn-dark" asp-page-handler="CancelEvent" asp-route-eventId="@e.Id" asp-route-filter="@Model.EventFilter">Cancel</button>
+                        }
+                    }
+                    @if((await AuthorizationService.AuthorizeAsync(User, "CanDeleteEvent")).Succeeded)
+                    {
+                    <button type="submit" class="btn btn-dark" asp-page-handler="DeleteEvent" asp-route-eventId="@e.Id" asp-route-filter="@Model.EventFilter">Delete</button>
+                    }
+                </div>
+            </div>
+        </div>
+      }
+      </form>
+  }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

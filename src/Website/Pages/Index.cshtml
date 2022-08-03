@@ -1,12 +1,44 @@
 ﻿@page
+
 @using BrickAtHeart.Communities.Models
+@using BrickAtHeart.Communities.Models.Events
+@using BrickAtHeart.Communities.Models.Extensions
 @using Microsoft.AspNetCore.Identity
+
 @model IndexModel
-@inject SignInManager<User> SignInManager
+
+@inject SignInManager<User> signInManager
+@inject UserStore userStore
+
 @{
-    if(SignInManager.IsSignedIn(User))
+    if(signInManager.IsSignedIn(User))
     {
         ViewData["Title"] = "Dashboard";
+
+        <h2>Upcoming Events</h2>
+
+        @if(Model.UpcomingEvents == null || Model.UpcomingEvents.Count < 1)
+        {
+            <p>No events scheduled.</p>
+        }
+
+        @foreach(Event e in Model.UpcomingEvents)
+        {
+            <form id="event-list-form" method="post">
+                <div class="card-body">
+                    <div class="card">
+                        <h4 class="card-header">
+                            @e.Name
+                        </h4>
+                        <div class="card-body">
+                            <h3 class="card-title">@e.Location</h3>
+                            <h4 class="card-subtitle">@e.Schedules[0].ToString(User.GetTimeZoneInfo(userStore))</h4>
+                            <p class="card-text mt-2">@e.Description</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
     }
     else
     {

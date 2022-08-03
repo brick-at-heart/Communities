@@ -32,7 +32,8 @@ BEGIN
 		U.[Region],
 		U.[Country],
 		U.[PostalCode],
-		U.[DateOfBirth]
+		U.[DateOfBirth],
+		U.[TimeZone]
 	FROM [dbo].[Community] C
 		INNER JOIN [dbo].[Membership] M
 			ON C.[Id] = M.[CommunityId]

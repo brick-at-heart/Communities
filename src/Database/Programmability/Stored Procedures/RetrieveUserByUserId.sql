@@ -27,7 +27,8 @@ BEGIN
 		U.[Region],
 		U.[Country],
 		U.[PostalCode],
-		U.[DateOfBirth]
+		U.[DateOfBirth],
+		U.[TimeZone]
 	FROM [dbo].[User] U
 	WHERE U.[Id] = @userId;
 	

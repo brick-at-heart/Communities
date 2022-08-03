@@ -18,6 +18,7 @@
     [Country]               NVARCHAR(100)   NULL,
     [PostalCode]            NVARCHAR(100)   NULL,
     [DateOfBirth]           DATE            NOT NULL,
+    [TimeZone]              NVARCHAR(32)    NOT NULL CONSTRAINT [DF_User_TimeZone] DEFAULT ('UTC'),
     [Created]               DATETIMEOFFSET  NOT NULL CONSTRAINT [DF_User_Created] DEFAULT GetUtcDate(),
 	[Updated]			    DATETIMEOFFSET	NULL,
     [LastAccess]            DATETIMEOFFSET  NULL,

@@ -120,10 +120,22 @@
     <Build Include="Programmability\Stored Procedures\UpdateUser.sql" />
     <Build Include="Programmability\Stored Procedures\UpdateCommunity.sql" />
     <Build Include="Programmability\Stored Procedures\RetrieveUsersByCommunityId.sql" />
+    <Build Include="Tables\Event.sql" />
+    <Build Include="Tables\EventStatus.sql" />
+    <Build Include="Tables\EventSchedule.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateEvent.sql" />
+    <Build Include="Programmability\Stored Procedures\CreateEventSchedule.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteEvent.sql" />
+    <Build Include="Programmability\Stored Procedures\DeleteEventSchedule.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveEventByCommunityId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveEventScheduleByCommunityId.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveEventScheduleByEventId.sql" />
+    <Build Include="Programmability\Stored Procedures\UpdateEvent.sql" />
+    <Build Include="Programmability\Stored Procedures\UpdateEventSchedule.sql" />
+    <Build Include="Programmability\Stored Procedures\RetrieveEventByEventId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
-    <None Include="Programmability\Stored Procedures\Script.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.Local.publish.xml" />
